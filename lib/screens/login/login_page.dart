@@ -72,14 +72,11 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(Icons.school, size: 40, color: Theme.of(context).primaryColor),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+              child: const Icon(Icons.school, size: 40),
             ),
             const SizedBox(width: 16),
-            Text("EduLearn", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+            const Text("EduLearn", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
           ],
         ),
         const SizedBox(height: 24),
@@ -137,6 +134,11 @@ class _LoginPageState extends State<LoginPage> {
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               contentPadding: const EdgeInsets.symmetric(vertical: 16),
             ),
+            onFieldSubmitted: (String value) {
+              if(_formKey.currentState!.validate()) {
+                _logIn();
+              }
+            },
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your password';
@@ -160,14 +162,11 @@ class _LoginPageState extends State<LoginPage> {
           height: 55,
           child: ElevatedButton(
             onPressed: _logIn,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
+            style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
             child:
                 provider.isLogging
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text("Login", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                    ? const CircularProgressIndicator()
+                    : const Text("Login", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
         );
       },
@@ -178,11 +177,8 @@ class _LoginPageState extends State<LoginPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Don't have an account? ", style: TextStyle(color: Colors.grey[600], fontSize: 16)),
-        TextButton(
-          onPressed: () {},
-          child: Text("Sign Up", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16, fontWeight: FontWeight.bold)),
-        ),
+        const Text("Don't have an account? ", style: TextStyle(fontSize: 16)),
+        TextButton(onPressed: () {}, child: const Text("Sign Up", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lms1/screens/home/home_page.dart';
 import 'package:lms1/screens/login/controller/auth_provider.dart';
 import 'package:lms1/screens/login/login_page.dart';
+import 'package:lms1/utils/app_theme.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -20,9 +21,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
-          // themeMode: ThemeMode.dark,
-          theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-          darkTheme: ThemeData.dark(),
+          themeMode: ThemeMode.system,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
           home: FutureBuilder(
             future: context.read<AuthProvider>().isLoggedIn(),
             builder: (context, snapshot) {
