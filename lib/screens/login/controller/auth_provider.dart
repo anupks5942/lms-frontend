@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:lms1/network/constants/app_constants.dart';
 import 'package:lms1/utils/navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../constans/base_url.dart';
 import '../login_page.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -33,10 +33,8 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> login(String email, String password) async {
-    String baseUrl = BaseUrl.baseUrl;
+    String baseUrl = AppConstants.baseUrl;
     final url = Uri.parse('$baseUrl/auth/login');
-
-    log('Login URL: $url');
 
     setLogging(true);
 
@@ -46,10 +44,6 @@ class AuthProvider with ChangeNotifier {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({"email": email, "password": password}),
       );
-
-      log('Login Request Body: ${jsonEncode({"email": email, "password": password})}');
-      log('Login Status Code: ${response.statusCode}');
-      log('Login Response: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -81,16 +75,6 @@ class AuthProvider with ChangeNotifier {
     await prefs.remove('user');
     if (context.mounted) {
       Navigation.pushReplacementCupertino(context, const LoginPage());
-    }
-    notifyListeners();
-  }
-
-  Future<void> loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    _token = prefs.getString('token');
-    final userData = prefs.getString('user');
-    if (userData != null) {
-      _user = jsonDecode(userData);
     }
     notifyListeners();
   }

@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:lms1/screens/home/home_page.dart';
 import 'package:lms1/utils/navigation.dart';
 import 'package:provider/provider.dart';
-
 import 'controller/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,13 +17,11 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-  bool _rememberMe = false;
 
   void _logIn() async {
     if (_formKey.currentState!.validate()) {
       final res = await context.read<AuthProvider>().login(_emailController.text.trim(), _passwordController.text.trim());
       if (res == true) {
-        log("Login successful");
         if (mounted) {
           Navigation.pushReplacementCupertino(context, const HomePage());
         }
@@ -58,12 +54,6 @@ class _LoginPageState extends State<LoginPage> {
                 _buildLoginForm(),
                 const SizedBox(height: 20),
                 _buildLoginButton(),
-                const SizedBox(height: 16),
-                _buildForgotPasswordAndRememberMe(),
-                const SizedBox(height: 30),
-                _buildDivider(),
-                const SizedBox(height: 20),
-                _buildSocialLogin(),
                 const SizedBox(height: 30),
                 _buildSignUpOption(),
               ],
@@ -82,7 +72,10 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Icon(Icons.school, size: 40, color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: 16),
@@ -92,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 24),
         const Text("Welcome Back!", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
-        Text("Sign in to continue your learning journey", style: TextStyle(fontSize: 16, color: Colors.grey[600])),
+        const Text("Sign in to continue your learning journey", style: TextStyle(fontSize: 16)),
       ],
     );
   }
@@ -181,109 +174,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildForgotPasswordAndRememberMe() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Checkbox(
-              value: _rememberMe,
-              onChanged: (value) {
-                setState(() {
-                  _rememberMe = value!;
-                });
-              },
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            ),
-            const Text("Remember me"),
-          ],
-        ),
-        TextButton(
-          onPressed: () {
-            // TODO: Implement forgot password functionality
-          },
-          child: Text("Forgot Password?", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDivider() {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: Colors.grey[400], thickness: 1)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text("Or continue with", style: TextStyle(color: Colors.grey[600], fontSize: 14)),
-        ),
-        Expanded(child: Divider(color: Colors.grey[400], thickness: 1)),
-      ],
-    );
-  }
-
-  Widget _buildSocialLogin() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildSocialButton(
-          icon: 'assets/icons/google.png',
-          onPressed: () {
-            // TODO: Implement Google sign-in
-          },
-        ),
-        const SizedBox(width: 20),
-        _buildSocialButton(
-          icon: 'assets/icons/facebook.png',
-          onPressed: () {
-            // TODO: Implement Facebook sign-in
-          },
-        ),
-        const SizedBox(width: 20),
-        _buildSocialButton(
-          icon: 'assets/icons/apple.png',
-          onPressed: () {
-            // TODO: Implement Apple sign-in
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialButton({required String icon, required VoidCallback onPressed}) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(border: Border.all(color: Colors.grey[300]!), borderRadius: BorderRadius.circular(12)),
-        child: Center(
-          // Note: You'll need to add these icon assets to your project
-          // For now, using placeholder icons
-          child: Icon(
-            icon.contains('google')
-                ? Icons.g_mobiledata
-                : icon.contains('facebook')
-                ? Icons.facebook
-                : Icons.apple,
-            size: 30,
-            color: Colors.grey[700],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildSignUpOption() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Don't have an account? ", style: TextStyle(color: Colors.grey[600], fontSize: 16)),
         TextButton(
-          onPressed: () {
-            // TODO: Navigate to sign up page
-          },
+          onPressed: () {},
           child: Text("Sign Up", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16, fontWeight: FontWeight.bold)),
         ),
       ],

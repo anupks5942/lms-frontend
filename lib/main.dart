@@ -3,7 +3,6 @@ import 'package:lms1/screens/home/home_page.dart';
 import 'package:lms1/screens/login/controller/auth_provider.dart';
 import 'package:lms1/screens/login/login_page.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,20 +14,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],
       builder: (context, pro) {
         return MaterialApp(
           title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          // themeMode: ThemeMode.dark,
           theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
+          darkTheme: ThemeData.dark(),
           home: FutureBuilder(
             future: context.read<AuthProvider>().isLoggedIn(),
             builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data == true) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+              if (snapshot.hasData && snapshot.data!) {
                 return const HomePage();
-              } else {
+              } else{
                 return const LoginPage();
+
               }
             },
           ),
