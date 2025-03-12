@@ -67,6 +67,41 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> register(String email, String password) async {
+    String baseUrl = AppConstants.baseUrl;
+    final url = Uri.parse('$baseUrl/auth/register'); // Adjust endpoint as needed
+
+    setLogging(true);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({"email": email, "password": password}),
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) { // 201 for created, 200 for OK
+        final data = jsonDecode(response.body);
+        _token = data['token'];
+        _user = data['user'];
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', _token!);
+        await prefs.setString('user', jsonEncode(_user));
+
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e, s) {
+      log("Registration error: $e $s");
+      return false;
+    } finally {
+      setLogging(false);
+    }
+  }
+
   Future<void> logout(BuildContext context) async {
     _token = null;
     _user = null;
