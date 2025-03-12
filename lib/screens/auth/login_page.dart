@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:lms1/screens/auth/register_page.dart';
 import 'package:lms1/screens/home/home_page.dart';
 import 'package:lms1/utils/navigation.dart';
 import 'package:provider/provider.dart';
@@ -178,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Don't have an account? ", style: TextStyle(fontSize: 16)),
-        TextButton(onPressed: () {}, child: const Text("Sign Up", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+        TextButton(onPressed: () => Navigation.pushCupertino(context, const RegisterPage()), child: const Text("Sign Up", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
       ],
     );
   }

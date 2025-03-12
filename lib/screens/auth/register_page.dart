@@ -15,6 +15,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool _isPasswordVisible = false;
@@ -22,7 +23,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
-      final res = await context.read<AuthProvider>().register(_emailController.text.trim(), _passwordController.text.trim());
+      final res = await context.read<AuthProvider>().register(
+        _nameController.text.trim(),
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
       if (res == true) {
         log("Registration successful");
         if (mounted) {
@@ -60,11 +65,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(Icons.school, size: 40, color: Theme.of(context).primaryColor),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                          child: const Icon(Icons.school, size: 40),
                         ),
                         const SizedBox(width: 16),
                         Text(
@@ -85,6 +87,27 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Text("Name", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          hintText: "Enter your name",
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          if (value.length < 3) {
+                            return 'Please enter a valid name';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
                       const Text("Email", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                       const SizedBox(height: 8),
                       TextFormField(

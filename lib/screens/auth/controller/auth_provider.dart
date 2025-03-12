@@ -67,7 +67,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> register(String email, String password) async {
+  Future<bool> register(String name, String email, String password) async {
     String baseUrl = AppConstants.baseUrl;
     final url = Uri.parse('$baseUrl/auth/register'); // Adjust endpoint as needed
 
@@ -77,10 +77,13 @@ class AuthProvider with ChangeNotifier {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({"email": email, "password": password}),
+        body: jsonEncode({"name": name, "email": email, "password": password}),
       );
 
-      if (response.statusCode == 201 || response.statusCode == 200) { // 201 for created, 200 for OK
+      log('Registration response: ${response.body}');
+      log('Registration response status code: ${response.statusCode}');
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
         final data = jsonDecode(response.body);
         _token = data['token'];
         _user = data['user'];
