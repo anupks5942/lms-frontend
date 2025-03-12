@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lms1/screens/auth/controller/auth_provider.dart';
+import 'package:lms1/screens/auth/login_page.dart';
 import 'package:lms1/screens/home/home_page.dart';
-import 'package:lms1/screens/login/controller/auth_provider.dart';
-import 'package:lms1/screens/login/login_page.dart';
 import 'package:lms1/utils/app_theme.dart';
 import 'package:provider/provider.dart';
 

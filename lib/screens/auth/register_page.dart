@@ -22,10 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
-      final res = await context.read<AuthProvider>().register(
-            _emailController.text.trim(),
-            _passwordController.text.trim(),
-          );
+      final res = await context.read<AuthProvider>().register(_emailController.text.trim(), _passwordController.text.trim());
       if (res == true) {
         log("Registration successful");
         if (mounted) {
@@ -64,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(Icons.school, size: 40, color: Theme.of(context).primaryColor),
@@ -72,24 +69,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(width: 16),
                         Text(
                           "EduLearn",
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
+                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                         ),
                       ],
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      "Create Account",
-                      style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                    ),
+                    const Text("Create Account", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
-                    Text(
-                      "Join us to start your learning journey",
-                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                    ),
+                    Text("Join us to start your learning journey", style: TextStyle(fontSize: 16, color: Colors.grey[600])),
                   ],
                 ),
                 const SizedBox(height: 40),
@@ -194,12 +181,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           backgroundColor: Theme.of(context).primaryColor,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: provider.isLogging
-                            ? const CircularProgressIndicator(color: Colors.white)
-                            : const Text(
-                                "Register",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-                              ),
+                        child:
+                            provider.isLogging
+                                ? const CircularProgressIndicator(color: Colors.white)
+                                : const Text("Register", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
                       ),
                     );
                   },
@@ -227,10 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         width: 60,
                         height: 60,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey[300]!),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey[300]!), borderRadius: BorderRadius.circular(12)),
                         child: const Center(child: Icon(Icons.g_mobiledata, size: 30, color: Colors.grey)),
                       ),
                     ),
@@ -243,10 +225,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         width: 60,
                         height: 60,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey[300]!),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey[300]!), borderRadius: BorderRadius.circular(12)),
                         child: const Center(child: Icon(Icons.facebook, size: 30, color: Colors.grey)),
                       ),
                     ),
@@ -259,10 +238,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         width: 60,
                         height: 60,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey[300]!),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey[300]!), borderRadius: BorderRadius.circular(12)),
                         child: const Center(child: Icon(Icons.apple, size: 30, color: Colors.grey)),
                       ),
                     ),
@@ -272,21 +248,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Already have an account? ",
-                      style: TextStyle(color: Colors.grey[600], fontSize: 16),
-                    ),
+                    Text("Already have an account? ", style: TextStyle(color: Colors.grey[600], fontSize: 16)),
                     TextButton(
                       onPressed: () {
-                        Navigation.pop(context);
+                        Navigator.pop(context);
                       },
                       child: Text(
                         "Login",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
