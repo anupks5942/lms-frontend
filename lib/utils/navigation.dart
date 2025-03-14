@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class Navigation {
+  Navigation._();
+
   static void pushCupertino(BuildContext context, Widget screen) {
     Navigator.of(context).push(CupertinoPageRoute(builder: (context) => screen));
   }

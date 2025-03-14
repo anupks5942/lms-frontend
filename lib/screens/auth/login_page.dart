@@ -1,9 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:lms1/screens/auth/register_page.dart';
-import 'package:lms1/screens/home/home_page.dart';
-import 'package:lms1/utils/navigation.dart';
+import '../home/home_page.dart';
+import '../../utils/navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+import '../../widgets/global/custom_textfield.dart';
 import 'controller/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+  late AuthProvider authProvider;
 
   void _logIn() async {
     if (_formKey.currentState!.validate()) {
@@ -27,9 +28,15 @@ class _LoginPageState extends State<LoginPage> {
           Navigation.pushReplacementCupertino(context, const HomePage());
         }
       } else {
-        log("Login failed");
+        log('Login failed');
       }
     }
+  }
+
+  @override
+  void initState() {
+    authProvider = context.read<AuthProvider>();
+    super.initState();
   }
 
   @override
@@ -40,147 +47,90 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 40),
-                _buildHeader(),
-                const SizedBox(height: 40),
-                _buildLoginForm(),
-                const SizedBox(height: 20),
-                _buildLoginButton(),
-                const SizedBox(height: 30),
-                _buildSignUpOption(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _buildHeader(),
+      SizedBox(height: 4.h),
+      _buildLoginForm(),
+      SizedBox(height: 3.h),
+      _buildLoginButton(),
+      SizedBox(height: 3.h),
+      _buildSignUpOption(),
+    ],
+  );
 
-  Widget _buildHeader() {
-    return Column(
+  Widget _buildHeader() => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('Welcome Back!', style: Theme.of(context).textTheme.titleLarge),
+      SizedBox(height: 1.h),
+      Text('Sign in to continue your learning journey', style: Theme.of(context).textTheme.titleSmall),
+    ],
+  );
+
+  Widget _buildLoginForm() => Form(
+    key: _formKey,
+    child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.school, size: 40),
-            ),
-            const SizedBox(width: 16),
-            const Text("EduLearn", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-          ],
+        Text('Email', style: Theme.of(context).textTheme.labelLarge),
+        SizedBox(height: 1.h),
+        CustomTextField(
+          controller: _emailController,
+          hintText: 'Enter your email',
+          prefixIcon: Icons.email_outlined,
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Please enter your email';
+            if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+              return 'Enter a valid email';
+            }
+            return null;
+          },
         ),
-        const SizedBox(height: 24),
-        const Text("Welcome Back!", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 8),
-        const Text("Sign in to continue your learning journey", style: TextStyle(fontSize: 16)),
+        SizedBox(height: 2.h),
+        Text('Password', style: Theme.of(context).textTheme.labelLarge),
+        SizedBox(height: 1.h),
+        CustomTextField(
+          controller: _passwordController,
+          hintText: 'Enter your password',
+          prefixIcon: Icons.lock,
+          isPassword: true,
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Please enter your password';
+            if (value.length < 6) return 'Password must be at least 6 characters';
+            return null;
+          },
+          onFieldSubmitted: (value) => _logIn(),
+        ),
       ],
-    );
-  }
+    ),
+  );
 
-  Widget _buildLoginForm() {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("Email", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
-          TextFormField(
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              hintText: "Enter your email",
-              prefixIcon: const Icon(Icons.email_outlined),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              contentPadding: const EdgeInsets.symmetric(vertical: 16),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                return 'Please enter a valid email';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 20),
-          const Text("Password", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
-          TextFormField(
-            controller: _passwordController,
-            obscureText: !_isPasswordVisible,
-            decoration: InputDecoration(
-              hintText: "Enter your password",
-              prefixIcon: const Icon(Icons.lock_outline),
-              suffixIcon: IconButton(
-                icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
-              ),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              contentPadding: const EdgeInsets.symmetric(vertical: 16),
-            ),
-            onFieldSubmitted: (String value) {
-              if(_formKey.currentState!.validate()) {
-                _logIn();
-              }
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              if (value.length < 5) {
-                return 'Password must be at least 6 characters';
-              }
-              return null;
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLoginButton() {
-    return Consumer<AuthProvider>(
-      builder: (context, provider, child) {
-        return SizedBox(
+  Widget _buildLoginButton() => Consumer<AuthProvider>(
+    builder:
+        (context, provider, child) => SizedBox(
           width: double.infinity,
-          height: 55,
+          height: 6.h,
           child: ElevatedButton(
             onPressed: _logIn,
-            style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+            // style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.w))),
             child:
                 provider.isLogging
                     ? const CircularProgressIndicator()
-                    : const Text("Login", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    : Text('Login'),
           ),
-        );
-      },
-    );
-  }
+        ),
+  );
 
-  Widget _buildSignUpOption() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("Don't have an account? ", style: TextStyle(fontSize: 16)),
-        TextButton(onPressed: () => Navigation.pushCupertino(context, const RegisterPage()), child: const Text("Sign Up", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
-      ],
-    );
-  }
+  Widget _buildSignUpOption() => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text("Don't have an account?"),
+      TextButton(
+        onPressed: () => authProvider.setShowLogin(false),
+        child: Text('Sign Up'),
+      ),
+    ],
+  );
 }

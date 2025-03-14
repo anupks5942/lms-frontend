@@ -49,22 +49,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
-  dio:
-    dependency: "direct main"
-    description:
-      name: dio
-      sha256: "253a18bbd4851fecba42f7343a1df3a9a4c1d31a2c1b37e221086b4fa8c8dbc9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.8.0+1"
-  dio_web_adapter:
-    dependency: transitive
-    description:
-      name: dio_web_adapter
-      sha256: "7586e476d70caecaf1686d21eee7247ea43ef5c345eab9e0cc3583ff13378d78"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   fake_async:
     dependency: transitive
     description:
@@ -280,14 +264,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
-  riverpod:
-    dependency: "direct main"
-    description:
-      name: riverpod
-      sha256: "59062512288d3056b2321804332a13ffdd1bf16df70dcc8e506e411280a72959"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.6.1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -344,6 +320,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  sizer:
+    dependency: "direct main"
+    description:
+      name: sizer
+      sha256: "6f68f574b6dd052e87c4abf67fe4feb316651fab02430ef7e53e991c15acfcb7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.5"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -365,14 +349,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
-  state_notifier:
-    dependency: transitive
-    description:
-      name: state_notifier
-      sha256: b8677376aa54f2d7c58280d5a007f9e8774f1968d1fb1c096adcb4792fba29bb
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   stream_channel:
     dependency: transitive
     description:

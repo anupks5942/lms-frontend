@@ -12,12 +12,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.read<AuthProvider>().logout(context),
         child: const Icon(Icons.logout),
       ),
     );
-  }
 }

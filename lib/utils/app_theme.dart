@@ -1,22 +1,10 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-/// The [AppTheme] defines light and dark themes for the app.
-///
-/// Theme setup for FlexColorScheme package v8.
-/// Use same major flex_color_scheme package version. If you use a
-/// lower minor version, some properties may not be supported.
-/// In that case, remove them after copying this theme to your
-/// app or upgrade package to version 8.1.1.
-///
-/// Use in [MaterialApp] like this:
-///
-/// MaterialApp(
-///   theme: AppTheme.light,
-///   darkTheme: AppTheme.dark,
-/// );
-abstract final class AppTheme {
-  // The defined light theme.
+
+class AppTheme {
+  AppTheme._();
+
   static ThemeData light = FlexThemeData.light(
     scheme: FlexScheme.cyanM3,
     fontFamily: 'Apple',
@@ -31,8 +19,11 @@ abstract final class AppTheme {
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
+    // )
+    //     .copyWith(
+    //   textTheme: _customTextTheme(Typography.material2021().black),
   );
-  // The defined dark theme.
+
   static ThemeData dark = FlexThemeData.dark(
     scheme: FlexScheme.cyanM3,
     fontFamily: 'Apple',
@@ -48,5 +39,24 @@ abstract final class AppTheme {
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
+    // )
+    //     .copyWith(
+    //   textTheme: _customTextTheme(Typography.material2021().white),
+  );
+
+  // Unified custom text theme for both light and dark modes
+  static TextTheme _customTextTheme(TextTheme base) => base.copyWith(
+    headlineLarge: base.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
+    headlineMedium: base.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+    headlineSmall: base.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+    titleLarge: base.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+    titleMedium: base.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+    titleSmall: base.titleSmall?.copyWith(fontWeight: FontWeight.w500),
+    bodyLarge: base.bodyLarge?.copyWith(fontWeight: FontWeight.w400),
+    bodyMedium: base.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
+    bodySmall: base.bodySmall?.copyWith(fontWeight: FontWeight.w300),
+    labelLarge: base.labelLarge?.copyWith(fontWeight: FontWeight.bold, letterSpacing: 1.2),
+    labelMedium: base.labelMedium?.copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.1),
+    labelSmall: base.labelSmall?.copyWith(fontWeight: FontWeight.w500, letterSpacing: 1.0),
   );
 }
