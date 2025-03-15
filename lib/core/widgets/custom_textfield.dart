@@ -51,8 +51,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
           },
         )
             : (widget.suffixIcon != null ? Icon(widget.suffixIcon) : null),
-        // border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.w)),
-        // contentPadding: EdgeInsets.symmetric(vertical: 1.5.h),
       ),
       onFieldSubmitted: widget.onFieldSubmitted,
       validator: widget.validator,

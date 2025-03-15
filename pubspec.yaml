@@ -40,6 +40,7 @@ dependencies:
   go_router: ^14.8.1
   flex_color_scheme: ^8.1.1
   sizer: ^3.0.5
+  delightful_toast: ^1.1.0
 
 dev_dependencies:
   flutter_test:

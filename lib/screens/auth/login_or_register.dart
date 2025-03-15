@@ -30,7 +30,7 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
                   children: [
                     Icon(Icons.school, size: 8.w),
                     SizedBox(width: 4.w),
-                    Text('EduLearn', style: Theme.of(context).textTheme.headlineSmall),
+                    Text('EduLearn', style: Theme.of(context).textTheme.headlineMedium),
                   ],
                 ),
                 SizedBox(height: 3.h),
