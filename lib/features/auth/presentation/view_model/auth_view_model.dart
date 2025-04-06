@@ -14,7 +14,6 @@ final authViewModelProvider =
 );
 
 class AuthViewModel extends StateNotifier<AsyncValue<User?>> {
-
   AuthViewModel({
     required this.loginUseCase,
     required this.registerUseCase,
