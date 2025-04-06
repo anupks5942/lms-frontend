@@ -35,12 +35,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   http: ^1.3.0
-  provider: ^6.1.2
   shared_preferences: ^2.5.2
   go_router: ^14.8.1
   flex_color_scheme: ^8.1.1
   sizer: ^3.0.5
-  delightful_toast: ^1.1.0
+  flutter_riverpod: ^2.6.1
+  fpdart: ^1.1.1
 
 dev_dependencies:
   flutter_test:

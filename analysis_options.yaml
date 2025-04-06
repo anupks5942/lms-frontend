@@ -29,7 +29,6 @@ linter:
     # 🎯 Style & Consistency
     - sort_constructors_first
     - curly_braces_in_flow_control_structures
-    - prefer_expression_function_bodies
     - prefer_interpolation_to_compose_strings
     - omit_local_variable_types
     - prefer_typing_uninitialized_variables
