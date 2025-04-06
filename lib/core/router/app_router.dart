@@ -5,33 +5,28 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_or_register_screen.dart';
 import '../../features/auth/presentation/view_model/auth_view_model.dart';
 import '../../features/home/home_screen.dart';
+import '../failures/value_failure.dart';
 import 'app_routes.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
-
 final routerProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authNotifierProvider);
+
   return GoRouter(
-    navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRoutes.login,
-    redirect: (context, state) {
-      final authState = ref.watch(authViewModelProvider);
-      final isLoggedIn = authState.value != null;
-      final isOnLoginPage = state.uri.toString() == AppRoutes.login;
-
-      if (!isLoggedIn && !isOnLoginPage) return AppRoutes.login;
-      if (isLoggedIn && isOnLoginPage) return AppRoutes.home;
-
-      return null;
-    },
     routes: [
       GoRoute(
-        path: AppRoutes.login,
-        builder: (context, state) => const LoginOrRegisterScreen(),
+        path: '/',
+        builder: (context, state) => authState.isAuthenticated
+            ? HomeScreen()
+            : LoginOrRegisterScreen(),
       ),
-      GoRoute(
-        path: AppRoutes.home,
-        builder: (context, state) => const HomeScreen(),
-      ),
+      // other routes...
     ],
+    redirect: (context, state) {
+      if (authState is AuthFailure) {
+        // You should return a **string path**, not the AuthFailure object.
+        return '/login';
+      }
+      return null;
+    },
   );
 });
