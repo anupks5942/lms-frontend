@@ -1,4 +1,4 @@
-// features/auth/domain/repositories/auth_repository.dart
+
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/failures/value_failure.dart';
 import '../entities/user.dart';

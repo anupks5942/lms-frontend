@@ -1,4 +1,4 @@
-// features/auth/presentation/screens/login_or_register_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -11,28 +11,38 @@ import '../domain/repositories/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final _baseUrl = ApiRoutes.baseUrl;
 
+  Future<Map<String, String>> _getHeaders() async {
+    final token = await LocalDataService.getString('token');
+    return {
+      'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+  }
+
   @override
   Future<Either<AuthFailure, User>> login({required String email, required String password}) async {
-    final url = Uri.parse('$_baseUrl${ApiRoutes.login}');
+    final url = Uri.parse(ApiRoutes.login);
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: await _getHeaders(),
         body: jsonEncode({'email': email, 'password': password}),
       );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
-        final token = data['token'];
-        final userMap = data['user'];
-        final user = User.fromJson(userMap);
+        final token = data['token'] as String;
+        final userMap = data['user'] as Map<String, dynamic>;
+        final user = User.fromJson(userMap, token: token);
 
         await _saveAuthData(token, userMap);
 
         return right(user);
       } else {
         final res = jsonDecode(response.body) as Map<String, dynamic>;
-        final error = res['message'] ?? 'Login failed';
+        final error = res['message'] is String
+            ? res['message']
+            : res['message']?.toString() ?? 'Login failed';
         return left(AuthFailure(error));
       }
     } catch (e, stackTrace) {
@@ -43,26 +53,28 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<AuthFailure, User>> register({required String name, required String email, required String password}) async {
-    final url = Uri.parse('$_baseUrl${ApiRoutes.register}');
+    final url = Uri.parse(ApiRoutes.register);
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: await _getHeaders(),
         body: jsonEncode({'name': name, 'email': email, 'password': password}),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
-        final token = data['token'];
-        final userMap = data['user'];
-        final user = User.fromJson(userMap);
+        final token = data['token'] as String;
+        final userMap = data['user'] as Map<String, dynamic>;
+        final user = User.fromJson(userMap, token: token);
 
         await _saveAuthData(token, userMap);
 
         return right(user);
       } else {
         final res = jsonDecode(response.body) as Map<String, dynamic>;
-        final error = res['message'] ?? 'Registration failed';
+        final error = res['message'] is String
+            ? res['message']
+            : res['message']?.toString() ?? 'Registration failed';
         return left(AuthFailure(error));
       }
     } catch (e, stackTrace) {
@@ -77,8 +89,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final userJson = await LocalDataService.getString('user');
 
       if (token != null && userJson != null) {
-        final userMap = jsonDecode(userJson);
-        final user = User.fromJson(userMap);
+        final userMap = jsonDecode(userJson) as Map<String, dynamic>;
+        final user = User.fromJson(userMap, token: token);
         return some(user);
       } else {
         return none();

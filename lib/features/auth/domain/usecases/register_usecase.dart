@@ -1,4 +1,4 @@
-// features/auth/domain/usecases/register_usecase.dart
+
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/failures/value_failure.dart';
 import '../entities/user.dart';

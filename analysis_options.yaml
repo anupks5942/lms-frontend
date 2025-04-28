@@ -27,7 +27,6 @@ linter:
     - prefer_relative_imports
 
     # 🎯 Style & Consistency
-    - sort_constructors_first
     - curly_braces_in_flow_control_structures
     - prefer_interpolation_to_compose_strings
     - omit_local_variable_types

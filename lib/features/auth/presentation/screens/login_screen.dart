@@ -1,4 +1,4 @@
-// features/auth/presentation/screens/login_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -29,7 +29,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
       state.when(
         data: (user) {
           if (user != null) {
-            // Navigate on success
+            
             context.go(AppRoutes.home);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Logged in successfully')),

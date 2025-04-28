@@ -1,20 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 class User {
+  final String id;
+  final String name;
+  final String email;
+  final String token;
+
   User({
     required this.id,
     required this.name,
     required this.email,
     required this.token,
   });
-  
-  final String id;
-  final String name;
-  final String email;
-  final String token;
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'name': name,
@@ -23,16 +20,12 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
+  factory User.fromJson(Map<String, dynamic> json, {required String token}) {
     return User(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      email: map['email'] as String,
-      token: map['token'] as String,
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      token: token,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
 }
