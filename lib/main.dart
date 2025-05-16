@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:lms1/features/course/providers/course_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'core/app_theme.dart';
@@ -8,7 +8,9 @@ import 'core/constants/app_router.dart';
 import 'core/services/logger.dart';
 import 'core/services/storage_manager.dart';
 import 'features/auth/providers/auth_provider.dart';
-import 'features/home/providers/home_provider.dart';
+import 'features/home/home_provider.dart';
+
+// display > headline > title > body > label
 
 void main() async {
   FlutterError.onError = (details) {
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
+        ChangeNotifierProvider(create: (context) => CourseProvider()),
       ],
       child: Sizer(
         builder: (context, orientation, deviceType) {

@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../../../core/constants/app_routes.dart';
-import '../../../core/services/custom_snackbar.dart';
-import '../../../core/services/loading_overlay.dart';
+import '../../../core/widgets/custom_snackbar.dart';
+import '../../../core/widgets/custom_loading_dialog.dart';
 import '../../../core/services/validation_service.dart';
 import '../../../core/widgets/custom_textfield.dart';
 import '../providers/auth_provider.dart';
@@ -18,6 +18,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  // final _emailController = TextEditingController(text: 'anupkumarsoni594@gmail.com');
+  // final _passwordController = TextEditingController(text: 'Anup123');
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   late AuthProvider authProvider;

@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lms1/features/course/pages/all_courses_screen.dart';
+import 'package:lms1/features/course/pages/my_courses_screen.dart';
+import 'package:lms1/features/home/home_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+import '../course/providers/course_provider.dart';
+import '../profile/profile_screen.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<IconData> get _icons => [Icons.auto_stories, Icons.bookmark, Icons.person];
+  late CourseProvider courseR;
+  late HomeProvider homeR;
+
+  @override
+  void initState() {
+    homeR = context.read<HomeProvider>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (homeR.selectedIndex != 1) {
+        homeR.setIndex(1);
+      }
+      context.read<CourseProvider>().getAllCourses();
+      context.read<CourseProvider>().getEnrolledCourses(context);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        if (homeR.selectedIndex != 1) {
+          homeR.setIndex(1);
+        } else {
+          _showLogoutDialog(context);
+        }
+      },
+      child: Scaffold(
+        body: Consumer<HomeProvider>(
+          builder: (context, homeW, _) {
+            return SafeArea(
+              child: Padding(
+                padding: EdgeInsets.all(4.w),
+                child: IndexedStack(
+                  index: homeW.selectedIndex,
+                  children: const [AllCoursesScreen(), MyCoursesScreen(), ProfileScreen()],
+                ),
+              ),
+            );
+          },
+        ),
+        bottomNavigationBar: Consumer<HomeProvider>(
+          builder: (context, homeW, child) {
+            return NavigationBar(
+              selectedIndex: homeW.selectedIndex,
+              onDestinationSelected: homeW.setIndex,
+              animationDuration: const Duration(milliseconds: 1000),
+              destinations: [
+                NavigationDestination(icon: Icon(_icons[0]), label: 'All Courses'),
+                NavigationDestination(icon: Icon(_icons[1]), label: 'My Courses'),
+                NavigationDestination(icon: Icon(_icons[2]), label: 'Profile'),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Exit'),
+          content: const Text('Are you sure you want to exit the app?'),
+          actions: [
+            TextButton(onPressed: dialogContext.pop, child: const Text('Cancel')),
+            TextButton(
+              onPressed: () {
+                dialogContext.pop();
+                SystemNavigator.pop();
+              },
+              child: const Text('Exit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

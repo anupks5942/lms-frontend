@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../core/constants/api_routes.dart';
@@ -12,23 +14,15 @@ class AuthService {
 
   Future<Either<String, AuthModel>> login({required String email, required String password}) async {
     try {
-      final response = await _dio.post(
-        ApiRoutes.login,
-        data: {'email': email, 'password': password},
-      );
+      final response = await _dio.post(ApiRoutes.login, data: {'email': email, 'password': password});
 
       if (response.statusCode == 200) {
         final authModel = AuthModel.fromJson(response.data);
-        final userMap = authModel.user.toJson();
 
-        StorageManager.setStringValue(
-          key: AppStorageKey.user,
-          value: userMap.toString(),
-        );
-        StorageManager.setStringValue(
-          key: AppStorageKey.token,
-          value: authModel.token,
-        );
+        final user = jsonEncode(response.data['user']);
+
+        StorageManager.setStringValue(key: AppStorageKey.user, value: user);
+        StorageManager.setStringValue(key: AppStorageKey.token, value: authModel.token);
 
         return Right(authModel);
       } else {
@@ -43,27 +37,16 @@ class AuthService {
     }
   }
 
-  Future<Either<String, AuthModel>> register({required String name, required String email, required String password}) async {
+  Future<Either<String, String>> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     try {
-      final response = await _dio.post(
-        ApiRoutes.register,
-        data: {'name': name, 'email': email, 'password': password},
-      );
+      final response = await _dio.post(ApiRoutes.register, data: {'name': name, 'email': email, 'password': password});
 
       if (response.statusCode == 201) {
-        final authModel = AuthModel.fromJson(response.data);
-        final userMap = authModel.user.toJson();
-
-        StorageManager.setStringValue(
-          key: AppStorageKey.user,
-          value: userMap.toString(),
-        );
-        StorageManager.setStringValue(
-          key: AppStorageKey.token,
-          value: authModel.token,
-        );
-
-        return Right(authModel);
+        return Right(response.data['message'] ?? 'Registration successful');
       } else {
         return Left(response.statusMessage ?? 'Registration failed');
       }

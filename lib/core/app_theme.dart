@@ -7,7 +7,7 @@ class AppTheme {
 
   static ThemeData light = FlexThemeData.light(
     scheme: FlexScheme.cyanM3,
-    fontFamily: 'Apple',
+    fontFamily: 'Google',
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
       tintedDisabledControls: true,
@@ -19,11 +19,17 @@ class AppTheme {
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+        TargetPlatform.values,
+        value: (_) => const FadeForwardsPageTransitionsBuilder(),
+      ),
+    ),
   );
 
   static ThemeData dark = FlexThemeData.dark(
     scheme: FlexScheme.cyanM3,
-    fontFamily: 'Apple',
+    fontFamily: 'Google',
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
       tintedDisabledControls: true,
@@ -36,5 +42,11 @@ class AppTheme {
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+        TargetPlatform.values,
+        value: (_) => const FadeForwardsPageTransitionsBuilder(),
+      ),
+    ),
   );
 }

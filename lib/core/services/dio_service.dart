@@ -4,7 +4,13 @@ import '../constants/app_storage_key.dart';
 import 'storage_manager.dart';
 
 class DioService {
-  static final Dio _dio = Dio(BaseOptions(baseUrl: ApiRoutes.baseUrl, headers: {'Content-Type': 'application/json'}))
+  static final Dio _dio = Dio(
+      BaseOptions(
+        baseUrl: ApiRoutes.baseUrl,
+        headers: {'Content-Type': 'application/json'},
+        validateStatus: (status) => status != null && status < 500,
+      ),
+    )
     ..interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {

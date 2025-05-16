@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomLoadingDialog {
@@ -34,10 +35,10 @@ class CustomLoadingDialog {
                   valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
                 ),
                 if (message != null && message.trim().isNotEmpty) ...[
-                  SizedBox(width: 3.w),
+                  SizedBox(width: 4.w),
                   Text(
                     message,
-                    style: textStyle ?? theme.textTheme.bodyLarge,
+                    style: textStyle ?? theme.textTheme.titleMedium,
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -51,7 +52,7 @@ class CustomLoadingDialog {
 
   static void hide(BuildContext context) {
     if (_isDialogShowing) {
-      Navigator.of(context).pop();
+      context.pop();
       _isDialogShowing = false;
     }
   }

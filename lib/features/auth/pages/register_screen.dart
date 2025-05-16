@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lms1/core/services/loading_overlay.dart';
+import 'package:lms1/core/widgets/custom_alert_dialog.dart';
+import 'package:lms1/core/widgets/custom_loading_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import '../../../core/constants/app_routes.dart';
-import '../../../core/services/custom_snackbar.dart';
+import '../../../core/widgets/custom_snackbar.dart';
 import '../../../core/services/validation_service.dart';
 import '../../../core/widgets/custom_textfield.dart';
 import '../providers/auth_provider.dart';
@@ -18,6 +17,10 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  // final _nameController = TextEditingController(text: 'Anup Kumar Soni');
+  // final _emailController = TextEditingController(text: 'anupkumarsoni594@gmail.com');
+  // final _passwordController = TextEditingController(text: 'Anup123');
+  // final _confirmPasswordController = TextEditingController(text: 'Anup123');
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -41,9 +44,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           context.showCustomSnackBar(message: err, type: SnackBarType.error);
         },
         (_) {
-          final name = authProvider.authModel?.user.name ?? '';
-          context.showCustomSnackBar(message: 'Welcome, $name', type: SnackBarType.success);
-          context.go(AppRoutes.home);
+          _nameController.clear();
+          _emailController.clear();
+          _passwordController.clear();
+          _confirmPasswordController.clear();
+
+          showCustomAlertDialog(
+            context: context,
+            title: 'Success',
+            message: 'Please check your mail to verify and then login.',
+            buttonText: 'Login',
+            onButtonPressed: authProvider.toggleLoginView,
+            seconds: 5
+          );
         },
       );
     }
