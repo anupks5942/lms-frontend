@@ -3,9 +3,9 @@ import 'package:lms1/core/widgets/custom_loading_dialog.dart';
 import 'package:lms1/core/widgets/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../../auth/providers/auth_provider.dart';
 import '../models/course.dart';
 import 'package:intl/intl.dart';
-
 import '../providers/course_provider.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
@@ -20,38 +20,44 @@ class CourseDetailsScreen extends StatelessWidget {
     final studentCount = course.students.length;
     final formattedDate = DateFormat('MMM d, yyyy').format(course.createdAt);
 
+    final user = context.read<AuthProvider>().getUser();
+    final isEnrolled = course.students.any((student) => student.id == user?.id);
+
     return Scaffold(
       appBar: AppBar(elevation: 0, title: const Text('Course'), centerTitle: true),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(4.w),
-        child: SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () async {
-              context.showDialog(message: 'Enrolling');
-              final response = await context.read<CourseProvider>().enrollIntoCourse(course.id);
-              if(context.mounted) context.hideDialog();
-              response.match(
-                  (e) {
-                    context.showCustomSnackBar(message: e, type: SnackBarType.error);
-                  },
-                  (_) {
-                    context.showCustomSnackBar(message: 'Enrolled Successfully', type: SnackBarType.success);
-                  }
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
-              foregroundColor: colorScheme.onPrimary,
-              padding: EdgeInsets.symmetric(vertical: 1.5.h),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 2,
-              textStyle: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            child: const Text('Enroll Now'),
-          ),
-        ),
-      ),
+      bottomNavigationBar:
+          !isEnrolled
+              ? Padding(
+                padding: EdgeInsets.all(4.w),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      context.showDialog(message: 'Enrolling');
+                      final response = await context.read<CourseProvider>().enrollIntoCourse(course.id);
+                      if (context.mounted) context.hideDialog();
+                      response.match(
+                        (e) {
+                          context.showCustomSnackBar(message: e, type: SnackBarType.error);
+                        },
+                        (_) {
+                          context.showCustomSnackBar(message: 'Enrolled Successfully', type: SnackBarType.success);
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
+                      padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 2,
+                      textStyle: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    child: const Text('Enroll Now'),
+                  ),
+                ),
+              )
+              : null,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(4.w),

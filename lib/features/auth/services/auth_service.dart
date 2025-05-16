@@ -26,7 +26,8 @@ class AuthService {
 
         return Right(authModel);
       } else {
-        return Left(response.statusMessage ?? 'Login failed');
+        final message = DioService.getErrorMessageFromStatusCode(response.statusCode);
+        return Left(message);
       }
     } on DioException catch (e, s) {
       Logger.debug("DioException while login: $e\n\n$s");
@@ -48,7 +49,8 @@ class AuthService {
       if (response.statusCode == 201) {
         return Right(response.data['message'] ?? 'Registration successful');
       } else {
-        return Left(response.statusMessage ?? 'Registration failed');
+        final message = DioService.getErrorMessageFromStatusCode(response.statusCode);
+        return Left(message);
       }
     } on DioException catch (e, s) {
       Logger.debug("DioException while login: $e\n\n$s");

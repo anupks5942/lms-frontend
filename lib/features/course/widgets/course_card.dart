@@ -23,10 +23,6 @@ class CourseCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           context.push(AppRoutes.courseDetails, extra: course);
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => CourseDetailsScreen(course: course)),
-          // );
         },
         child: Padding(
           padding: EdgeInsets.all(4.w),
@@ -50,13 +46,14 @@ class CourseCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          course.title,
-                          style: textTheme.titleLarge?.copyWith(
-                            // fontWeight: FontWeight.w600,
+                        Tooltip(
+                          message: course.title,
+                          child: Text(
+                            course.title,
+                            style: textTheme.titleLarge,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 0.5.h),
                         Text(
