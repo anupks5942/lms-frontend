@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lms1/features/course/pages/all_courses_screen.dart';
-import 'package:lms1/features/course/pages/my_courses_screen.dart';
+import 'package:lms1/features/student/course/pages/all_courses_screen.dart';
+import 'package:lms1/features/student/course/pages/my_courses_screen.dart';
 import 'package:lms1/features/home/home_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import '../course/providers/course_provider.dart';
+import '../student/course/providers/course_provider.dart';
 import '../profile/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -64,10 +64,17 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, homeW, child) {
             return NavigationBar(
               selectedIndex: homeW.selectedIndex,
-              onDestinationSelected: homeW.setIndex,
+              onDestinationSelected: (index) {
+                homeW.setIndex(index);
+                if (homeW.selectedIndex == 0) {
+                  context.read<CourseProvider>().getAllCourses();
+                } else if (homeW.selectedIndex == 1) {
+                  context.read<CourseProvider>().getEnrolledCourses(context);
+                }
+              },
               animationDuration: const Duration(milliseconds: 1000),
               destinations: [
-                NavigationDestination(icon: Icon(_icons[0]), label: 'All Courses'),
+                NavigationDestination(icon: Icon(_icons[0]), label: 'Explore'),
                 NavigationDestination(icon: Icon(_icons[1]), label: 'My Courses'),
                 NavigationDestination(icon: Icon(_icons[2]), label: 'Profile'),
               ],

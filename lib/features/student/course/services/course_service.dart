@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import '../../../core/constants/api_routes.dart';
-import '../../../core/services/dio_service.dart';
-import '../../../core/services/logger.dart';
+import '../../../../core/constants/api_routes.dart';
+import '../../../../core/services/dio_service.dart';
+import '../../../../core/services/logger.dart';
 import '../models/course.dart';
 
 class CourseService {

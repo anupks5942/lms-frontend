@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:lms1/features/course/providers/course_provider.dart';
+import 'package:lms1/features/student/course/providers/course_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'core/app_theme.dart';

@@ -36,6 +36,11 @@ class ProfileScreen extends StatelessWidget {
               user?.email ?? '',
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
+            SizedBox(height: 0.5.h),
+            Text(
+              user?.role.toUpperCase() ?? '',
+              style: theme.textTheme.bodyMedium,
+            ),
             SizedBox(height: 2.h),
             const Spacer(),
             const LogoutButton()

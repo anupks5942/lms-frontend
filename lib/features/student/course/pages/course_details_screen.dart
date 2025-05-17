@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lms1/core/widgets/custom_loading_dialog.dart';
 import 'package:lms1/core/widgets/custom_snackbar.dart';
+import 'package:lms1/features/home/home_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import '../../auth/providers/auth_provider.dart';
+import '../../../auth/providers/auth_provider.dart';
 import '../models/course.dart';
 import 'package:intl/intl.dart';
 import '../providers/course_provider.dart';
@@ -42,6 +44,9 @@ class CourseDetailsScreen extends StatelessWidget {
                         },
                         (_) {
                           context.showCustomSnackBar(message: 'Enrolled Successfully', type: SnackBarType.success);
+                          context.pop();
+                          context.read<HomeProvider>().setIndex(1);
+                          context.read<CourseProvider>().getEnrolledCourses(context);
                         },
                       );
                     },
@@ -105,9 +110,9 @@ class CourseDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 6.w,
+                        radius: 5.w,
                         backgroundColor: colorScheme.secondaryContainer,
-                        child: Icon(Icons.calendar_today_outlined, size: 4.w, color: colorScheme.onSecondaryContainer),
+                        child: Icon(Icons.calendar_today_outlined, size: 5.w, color: colorScheme.onSecondaryContainer),
                       ),
                       SizedBox(width: 2.w),
                       Column(
@@ -128,9 +133,9 @@ class CourseDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 6.w,
+                        radius: 5.w,
                         backgroundColor: colorScheme.tertiaryContainer,
-                        child: Icon(Icons.people_outlined, size: 4.w, color: colorScheme.onTertiaryContainer),
+                        child: Icon(Icons.people_outlined, size: 5.w, color: colorScheme.onTertiaryContainer),
                       ),
                       SizedBox(width: 2.w),
                       Column(
@@ -150,6 +155,20 @@ class CourseDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 3.h),
+              Divider(color: colorScheme.onSurfaceVariant),
+              ListTile(
+                title: Text('Content', style: textTheme.titleLarge),
+                trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
+                onTap: () {},
+              ),
+              Divider(color: colorScheme.onSurfaceVariant),
+              ListTile(
+                title: Text('Quizzes', style: textTheme.titleLarge),
+                trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
+                onTap: () {},
+              ),
+              Divider(color: colorScheme.onSurfaceVariant),
             ],
           ),
         ),

@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
-import 'package:lms1/features/course/pages/course_details_screen.dart';
+import 'package:lms1/features/student/course/pages/course_details_screen.dart';
 import 'package:lms1/features/home/home_screen.dart';
 import '../../features/auth/pages/login_or_register_screen.dart';
-import '../../features/course/models/course.dart';
+import '../../features/student/course/models/course.dart';
 import '../services/logger.dart';
 import '../services/storage_manager.dart';
 import 'app_routes.dart';
