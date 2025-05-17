@@ -18,10 +18,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  // final _emailController = TextEditingController(text: 'anupkumarsoni594@gmail.com');
-  // final _passwordController = TextEditingController(text: 'Anup123');
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(text: 'anupsoni404@gmail.com');
+  final _passwordController = TextEditingController(text: 'Anup123');
+  // final _emailController = TextEditingController();
+  // final _passwordController = TextEditingController();
   late AuthProvider authProvider;
 
   void _logIn() async {

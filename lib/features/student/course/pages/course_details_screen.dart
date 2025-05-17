@@ -23,12 +23,13 @@ class CourseDetailsScreen extends StatelessWidget {
     final formattedDate = DateFormat('MMM d, yyyy').format(course.createdAt);
 
     final user = context.read<AuthProvider>().getUser();
+    final isStudent = user?.role == 'student';
     final isEnrolled = course.students.any((student) => student.id == user?.id);
 
     return Scaffold(
       appBar: AppBar(elevation: 0, title: const Text('Course'), centerTitle: true),
       bottomNavigationBar:
-          !isEnrolled
+          !isEnrolled && isStudent
               ? Padding(
                 padding: EdgeInsets.all(4.w),
                 child: SizedBox(
