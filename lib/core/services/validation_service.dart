@@ -183,4 +183,16 @@ class ValidationService {
       return 'Invalid number format';
     }
   }
+
+  static String? courseValidation(String? value, {String? message}) {
+    if (value == null || value.trim().isEmpty) {
+      return message ?? 'Required*';
+    }
+
+    if (value.trim().length > 100) {
+      return 'Title or Description cannot exceed 100 characters';
+    }
+
+    return null;
+  }
 }

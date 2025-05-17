@@ -5,6 +5,7 @@ class ApiRoutes {
   static const String register = '/auth/register';
   static const String courses = '/courses';
   static const String enrolledCourses = '/student/';
+  static const String createdCourses = '/teacher/';
   static const String enroll = 'enroll';
   static const String quizzes = '/quizzes/course/';
 }

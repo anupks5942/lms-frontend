@@ -39,19 +39,9 @@ class CourseDetailsScreen
       course.createdAt,
     );
 
-    final user =
-        context
-            .read<
-              AuthProvider
-            >()
-            .getUser();
-    final isEnrolled = course.students.any(
-      (
-        student,
-      ) =>
-          student.id ==
-          user?.id,
-    );
+    final user = context.read<AuthProvider>().getUser();
+    final isStudent = user?.role == 'student';
+    final isEnrolled = course.students.any((student) => student.id == user?.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +54,7 @@ class CourseDetailsScreen
             true,
       ),
       bottomNavigationBar:
-          !isEnrolled
+          !isEnrolled && isStudent
               ? Padding(
                 padding: EdgeInsets.all(
                   4.w,

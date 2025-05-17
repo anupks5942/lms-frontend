@@ -11,15 +11,21 @@ class CourseProvider with ChangeNotifier {
   bool _isAllLoading = false;
   bool _isMyLoading = false;
   bool _isEnrolling = false;
+  bool _isCreatedLoading = false;
+  bool _isCreating = false;
   List<Course> _allCourses = [];
   List<Course> _myCourses = [];
+  List<Course> _createdCourses = [];
   String _errorMessage = '';
 
   bool get isAllLoading => _isAllLoading;
   bool get isMyLoading => _isMyLoading;
   bool get isEnrolling => _isEnrolling;
+  bool get isCreatedLoading => _isCreatedLoading;
+  bool get isCreating => _isCreating;
   List<Course> get allCourses => _allCourses;
   List<Course> get myCourses => _myCourses;
+  List<Course> get createdCourses => _createdCourses;
   String get errorMessage => _errorMessage;
 
   Future<void> getAllCourses() async {
@@ -41,7 +47,6 @@ class CourseProvider with ChangeNotifier {
     notifyListeners();
 
     final user = context.read<AuthProvider>().getUser();
-
     final response = await _courseService.getEnrolledCourses(user?.id ?? '');
 
     response.match((err) => _errorMessage = err, (courses) => _myCourses = courses);
@@ -49,6 +54,20 @@ class CourseProvider with ChangeNotifier {
     _isMyLoading = false;
     notifyListeners();
   }
+
+  Future<void> getCreatedCourses(BuildContext context) async {
+    _errorMessage = '';
+    _isCreatedLoading = true;
+    notifyListeners();
+
+    final user = context.read<AuthProvider>().getUser();
+    final response = await _courseService.getCreatedCourses(user?.id ?? '');
+
+    response.match((err) => _errorMessage = err, (courses) => _createdCourses = courses);
+    _isCreatedLoading = false;
+    notifyListeners();
+  }
+
 
   Future<Either<String, String>> enrollIntoCourse(String courseId) async {
     _errorMessage = '';
@@ -58,6 +77,19 @@ class CourseProvider with ChangeNotifier {
     final response = await _courseService.enrollIntoCourse(courseId);
 
     _isEnrolling = false;
+    notifyListeners();
+
+    return response;
+  }
+
+  Future<Either<String, String>> createCourse(Map<String, dynamic> courseData) async {
+    _errorMessage = '';
+    _isCreating = true;
+    notifyListeners();
+
+    final response = await _courseService.createCourse(courseData);
+
+    _isCreating = false;
     notifyListeners();
 
     return response;

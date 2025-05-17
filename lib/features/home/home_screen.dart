@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lms1/features/auth/providers/auth_provider.dart';
 import 'package:lms1/features/student/course/pages/all_courses_screen.dart';
 import 'package:lms1/features/student/course/pages/my_courses_screen.dart';
 import 'package:lms1/features/home/home_provider.dart';
+import 'package:lms1/features/teacher/created_courses_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../auth/models/user.dart';
 import '../student/course/providers/course_provider.dart';
 import '../profile/profile_screen.dart';
 
@@ -20,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<IconData> get _icons => [Icons.auto_stories, Icons.bookmark, Icons.person];
   late CourseProvider courseR;
   late HomeProvider homeR;
+  User? user;
 
   @override
   void initState() {
@@ -28,8 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
       if (homeR.selectedIndex != 1) {
         homeR.setIndex(1);
       }
+      user = context.read<AuthProvider>().getUser();
+      if (user?.role == 'student') {
+        context.read<CourseProvider>().getEnrolledCourses(context);
+      } else {
+        context.read<CourseProvider>().getCreatedCourses(context);
+      }
       context.read<CourseProvider>().getAllCourses();
-      context.read<CourseProvider>().getEnrolledCourses(context);
     });
     super.initState();
   }
@@ -54,7 +63,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(4.w),
                 child: IndexedStack(
                   index: homeW.selectedIndex,
-                  children: const [AllCoursesScreen(), MyCoursesScreen(), ProfileScreen()],
+                  children: [
+                    const AllCoursesScreen(),
+                    user?.role == 'student' ? const MyCoursesScreen() : const CreatedCoursesScreen(),
+                    const ProfileScreen(),
+                  ],
                 ),
               ),
             );

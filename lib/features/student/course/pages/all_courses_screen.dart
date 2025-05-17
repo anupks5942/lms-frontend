@@ -15,12 +15,12 @@ class AllCoursesScreen extends StatelessWidget {
           await context.read<CourseProvider>().getAllCourses();
         },
         child: Consumer<CourseProvider>(
-          builder: (context, homeProvider, child) {
+          builder: (context, courseProvider, child) {
             return SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: 80.h),
-                child: _buildCourses(context, homeProvider),
+                child: _buildCourses(context, courseProvider),
               ),
             );
           },
@@ -29,12 +29,12 @@ class AllCoursesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCourses(BuildContext context, CourseProvider homeProvider) {
-    if (homeProvider.isAllLoading) {
+  Widget _buildCourses(BuildContext context, CourseProvider courseProvider) {
+    if (courseProvider.isAllLoading) {
       return SizedBox(height: 80.h, child: const Center(child: CircularProgressIndicator()));
     }
 
-    if (homeProvider.errorMessage.isNotEmpty) {
+    if (courseProvider.errorMessage.isNotEmpty) {
       return SizedBox(
         height: 80.h,
         child: Center(
@@ -42,19 +42,19 @@ class AllCoursesScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                homeProvider.errorMessage,
+                courseProvider.errorMessage,
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 2.h),
-              ElevatedButton(onPressed: homeProvider.getAllCourses, child: const Text('Retry')),
+              ElevatedButton(onPressed: courseProvider.getAllCourses, child: const Text('Retry')),
             ],
           ),
         ),
       );
     }
 
-    if (homeProvider.allCourses.isEmpty) {
+    if (courseProvider.allCourses.isEmpty) {
       return SizedBox(
         height: 80.h,
         child: Center(
@@ -78,11 +78,11 @@ class AllCoursesScreen extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: homeProvider.allCourses.length,
+      itemCount: courseProvider.allCourses.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.symmetric(vertical: 0.5.h),
-          child: CourseCard(course: homeProvider.allCourses[index]),
+          child: CourseCard(course: courseProvider.allCourses[index]),
         );
       },
     );
