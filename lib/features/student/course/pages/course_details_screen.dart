@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lms1/core/widgets/custom_loading_dialog.dart';
 import 'package:lms1/core/widgets/custom_snackbar.dart';
 import 'package:lms1/features/home/home_provider.dart';
+import 'package:lms1/features/student/course/pages/quizzes_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../../../auth/providers/auth_provider.dart';
@@ -10,120 +11,290 @@ import '../models/course.dart';
 import 'package:intl/intl.dart';
 import '../providers/course_provider.dart';
 
-class CourseDetailsScreen extends StatelessWidget {
+class CourseDetailsScreen
+    extends
+        StatelessWidget {
   final Course course;
-  const CourseDetailsScreen({super.key, required this.course});
+  const CourseDetailsScreen({
+    super.key,
+    required this.course,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-    final colorScheme = theme.colorScheme;
-    final studentCount = course.students.length;
-    final formattedDate = DateFormat('MMM d, yyyy').format(course.createdAt);
+  Widget build(
+    BuildContext context,
+  ) {
+    final theme = Theme.of(
+      context,
+    );
+    final textTheme =
+        theme.textTheme;
+    final colorScheme =
+        theme.colorScheme;
+    final studentCount =
+        course.students.length;
+    final formattedDate = DateFormat(
+      'MMM d, yyyy',
+    ).format(
+      course.createdAt,
+    );
 
-    final user = context.read<AuthProvider>().getUser();
-    final isEnrolled = course.students.any((student) => student.id == user?.id);
+    final user =
+        context
+            .read<
+              AuthProvider
+            >()
+            .getUser();
+    final isEnrolled = course.students.any(
+      (
+        student,
+      ) =>
+          student.id ==
+          user?.id,
+    );
 
     return Scaffold(
-      appBar: AppBar(elevation: 0, title: const Text('Course'), centerTitle: true),
+      appBar: AppBar(
+        elevation:
+            0,
+        title: const Text(
+          'Course',
+        ),
+        centerTitle:
+            true,
+      ),
       bottomNavigationBar:
           !isEnrolled
               ? Padding(
-                padding: EdgeInsets.all(4.w),
+                padding: EdgeInsets.all(
+                  4.w,
+                ),
                 child: SizedBox(
-                  width: double.infinity,
+                  width:
+                      double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      context.showDialog(message: 'Enrolling');
-                      final response = await context.read<CourseProvider>().enrollIntoCourse(course.id);
+                      context.showDialog(
+                        message:
+                            'Enrolling',
+                      );
+                      final response = await context
+                          .read<
+                            CourseProvider
+                          >()
+                          .enrollIntoCourse(
+                            course.id,
+                          );
                       if (context.mounted) context.hideDialog();
                       response.match(
-                        (e) {
-                          context.showCustomSnackBar(message: e, type: SnackBarType.error);
+                        (
+                          e,
+                        ) {
+                          context.showCustomSnackBar(
+                            message:
+                                e,
+                            type:
+                                SnackBarType.error,
+                          );
                         },
-                        (_) {
-                          context.showCustomSnackBar(message: 'Enrolled Successfully', type: SnackBarType.success);
+                        (
+                          _,
+                        ) {
+                          context.showCustomSnackBar(
+                            message:
+                                'Enrolled Successfully',
+                            type:
+                                SnackBarType.success,
+                          );
                           context.pop();
-                          context.read<HomeProvider>().setIndex(1);
-                          context.read<CourseProvider>().getEnrolledCourses(context);
+                          context
+                              .read<
+                                HomeProvider
+                              >()
+                              .setIndex(
+                                1,
+                              );
+                          context
+                              .read<
+                                CourseProvider
+                              >()
+                              .getEnrolledCourses(
+                                context,
+                              );
                         },
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.primary,
-                      foregroundColor: colorScheme.onPrimary,
-                      padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      elevation: 2,
-                      textStyle: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                      backgroundColor:
+                          colorScheme.primary,
+                      foregroundColor:
+                          colorScheme.onPrimary,
+                      padding: EdgeInsets.symmetric(
+                        vertical:
+                            1.5.h,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          12,
+                        ),
+                      ),
+                      elevation:
+                          2,
+                      textStyle: textTheme.bodyLarge?.copyWith(
+                        fontWeight:
+                            FontWeight.bold,
+                      ),
                     ),
-                    child: const Text('Enroll Now'),
+                    child: const Text(
+                      'Enroll Now',
+                    ),
                   ),
                 ),
               )
               : null,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(4.w),
+          padding: EdgeInsets.all(
+            4.w,
+          ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
             children: [
               Container(
-                width: double.infinity,
-                height: 20.h,
-                decoration: BoxDecoration(color: colorScheme.primaryContainer, borderRadius: BorderRadius.circular(12)),
-                child: Center(child: Icon(Icons.book_outlined, size: 10.w, color: colorScheme.onPrimaryContainer)),
+                width:
+                    double.infinity,
+                height:
+                    20.h,
+                decoration: BoxDecoration(
+                  color:
+                      colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(
+                    12,
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.book_outlined,
+                    size:
+                        10.w,
+                    color:
+                        colorScheme.onPrimaryContainer,
+                  ),
+                ),
               ),
-              SizedBox(height: 2.h),
+              SizedBox(
+                height:
+                    2.h,
+              ),
               Text(
                 course.title,
-                style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700, color: colorScheme.onSurface),
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight:
+                      FontWeight.w700,
+                  color:
+                      colorScheme.onSurface,
+                ),
               ),
-              SizedBox(height: 1.h),
+              SizedBox(
+                height:
+                    1.h,
+              ),
               Row(
                 children: [
-                  Icon(Icons.person_outline, size: 5.w, color: colorScheme.onSurfaceVariant),
-                  SizedBox(width: 2.w),
+                  Icon(
+                    Icons.person_outline,
+                    size:
+                        5.w,
+                    color:
+                        colorScheme.onSurfaceVariant,
+                  ),
+                  SizedBox(
+                    width:
+                        2.w,
+                  ),
                   Expanded(
                     child: Text(
                       course.teacher.name,
-                      style: textTheme.titleMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                      style: textTheme.titleMedium?.copyWith(
+                        color:
+                            colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 2.h),
+              SizedBox(
+                height:
+                    2.h,
+              ),
               Text(
                 'Description',
-                style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight:
+                      FontWeight.w600,
+                  color:
+                      colorScheme.onSurface,
+                ),
               ),
-              SizedBox(height: 1.h),
+              SizedBox(
+                height:
+                    1.h,
+              ),
               Text(
                 course.description,
-                style: textTheme.bodyLarge?.copyWith(color: colorScheme.onSurfaceVariant, height: 1.5),
+                style: textTheme.bodyLarge?.copyWith(
+                  color:
+                      colorScheme.onSurfaceVariant,
+                  height:
+                      1.5,
+                ),
               ),
-              SizedBox(height: 2.h),
+              SizedBox(
+                height:
+                    2.h,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 5.w,
-                        backgroundColor: colorScheme.secondaryContainer,
-                        child: Icon(Icons.calendar_today_outlined, size: 5.w, color: colorScheme.onSecondaryContainer),
+                        radius:
+                            5.w,
+                        backgroundColor:
+                            colorScheme.secondaryContainer,
+                        child: Icon(
+                          Icons.calendar_today_outlined,
+                          size:
+                              5.w,
+                          color:
+                              colorScheme.onSecondaryContainer,
+                        ),
                       ),
-                      SizedBox(width: 2.w),
+                      SizedBox(
+                        width:
+                            2.w,
+                      ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
                         children: [
-                          Text('Created', style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant)),
+                          Text(
+                            'Created',
+                            style: textTheme.bodySmall?.copyWith(
+                              color:
+                                  colorScheme.onSurfaceVariant,
+                            ),
+                          ),
                           Text(
                             formattedDate,
                             style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: colorScheme.onSurface,
+                              fontWeight:
+                                  FontWeight.w500,
+                              color:
+                                  colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -133,20 +304,40 @@ class CourseDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 5.w,
-                        backgroundColor: colorScheme.tertiaryContainer,
-                        child: Icon(Icons.people_outlined, size: 5.w, color: colorScheme.onTertiaryContainer),
+                        radius:
+                            5.w,
+                        backgroundColor:
+                            colorScheme.tertiaryContainer,
+                        child: Icon(
+                          Icons.people_outlined,
+                          size:
+                              5.w,
+                          color:
+                              colorScheme.onTertiaryContainer,
+                        ),
                       ),
-                      SizedBox(width: 2.w),
+                      SizedBox(
+                        width:
+                            2.w,
+                      ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
                         children: [
-                          Text('Students', style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant)),
+                          Text(
+                            'Students',
+                            style: textTheme.bodySmall?.copyWith(
+                              color:
+                                  colorScheme.onSurfaceVariant,
+                            ),
+                          ),
                           Text(
                             '$studentCount',
                             style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: colorScheme.onSurface,
+                              fontWeight:
+                                  FontWeight.w500,
+                              color:
+                                  colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -155,20 +346,60 @@ class CourseDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 3.h),
-              Divider(color: colorScheme.onSurfaceVariant),
-              ListTile(
-                title: Text('Content', style: textTheme.titleLarge),
-                trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
-                onTap: () {},
+              SizedBox(
+                height:
+                    3.h,
               ),
-              Divider(color: colorScheme.onSurfaceVariant),
-              ListTile(
-                title: Text('Quizzes', style: textTheme.titleLarge),
-                trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
-                onTap: () {},
+              Divider(
+                color:
+                    colorScheme.onSurfaceVariant,
               ),
-              Divider(color: colorScheme.onSurfaceVariant),
+              ListTile(
+                title: Text(
+                  'Content',
+                  style:
+                      textTheme.titleLarge,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size:
+                      4.w,
+                ),
+                onTap:
+                    () {},
+              ),
+              Divider(
+                color:
+                    colorScheme.onSurfaceVariant,
+              ),
+              ListTile(
+                title: Text(
+                  'Quizzes',
+                  style:
+                      textTheme.titleLarge,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size:
+                      4.w,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (
+                            context,
+                          ) =>
+                              const QuizzesScreen(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                color:
+                    colorScheme.onSurfaceVariant,
+              ),
             ],
           ),
         ),
