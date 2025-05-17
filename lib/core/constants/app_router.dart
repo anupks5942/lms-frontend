@@ -1,8 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:lms1/features/student/course/pages/course_details_screen.dart';
 import 'package:lms1/features/home/home_screen.dart';
+import 'package:lms1/features/student/quiz/models/quiz.dart';
+import 'package:lms1/features/student/quiz/pages/attempt_quiz_screen.dart';
 import '../../features/auth/pages/login_or_register_screen.dart';
 import '../../features/student/course/models/course.dart';
+import '../../features/student/quiz/pages/quizzes_screen.dart';
 import '../services/logger.dart';
 import '../services/storage_manager.dart';
 import 'app_routes.dart';
@@ -38,11 +41,29 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final course = state.extra as Course?;
         if (course == null) {
-          Logger.error('No course provided for courseDetails route');
           return const HomeScreen();
         }
-        Logger.info('Navigating to CourseDetailsScreen: ${course.title}');
         return CourseDetailsScreen(course: course);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.quizzes,
+      builder: (context, state) {
+        final courseId = state.extra as String?;
+        if (courseId == null) {
+          return const HomeScreen();
+        }
+        return QuizzesScreen(courseId: courseId);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.quiz,
+      builder: (context, state) {
+        final quiz = state.extra as Quiz?;
+        if (quiz == null) {
+          return const HomeScreen();
+        }
+        return AttemptQuizScreen(quiz: quiz);
       },
     ),
   ],

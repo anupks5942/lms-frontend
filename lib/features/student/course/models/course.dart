@@ -56,7 +56,7 @@ class Course {
       return Course(id: '', teacher: Teacher(id: ''), createdAt: DateTime.now());
     }
 
-    final teacherJson = json['teacher'] as Map<String, dynamic>?;
+    final teacherJson = json['teacher'] as Map<String, dynamic>? ?? {};
     final teacher = Teacher.fromJson(teacherJson);
 
     final studentsJson = json['students'] as List<dynamic>? ?? [];
@@ -69,7 +69,7 @@ class Course {
       description: json['description'] as String? ?? '',
       teacher: teacher,
       students: students,
-      createdAt: _parseDateTime(json['createdAt']),
+      createdAt: _parseDateTime(json['createdAt'] ?? ''),
     );
   }
 

@@ -10,9 +10,7 @@ class CourseProvider with ChangeNotifier {
 
   bool _isAllLoading = false;
   bool _isMyLoading = false;
-  bool _isEnrolling = false;
   bool _isCreatedLoading = false;
-  bool _isCreating = false;
   List<Course> _allCourses = [];
   List<Course> _myCourses = [];
   List<Course> _createdCourses = [];
@@ -20,9 +18,7 @@ class CourseProvider with ChangeNotifier {
 
   bool get isAllLoading => _isAllLoading;
   bool get isMyLoading => _isMyLoading;
-  bool get isEnrolling => _isEnrolling;
   bool get isCreatedLoading => _isCreatedLoading;
-  bool get isCreating => _isCreating;
   List<Course> get allCourses => _allCourses;
   List<Course> get myCourses => _myCourses;
   List<Course> get createdCourses => _createdCourses;
@@ -71,26 +67,18 @@ class CourseProvider with ChangeNotifier {
 
   Future<Either<String, String>> enrollIntoCourse(String courseId) async {
     _errorMessage = '';
-    _isEnrolling = true;
     notifyListeners();
 
     final response = await _courseService.enrollIntoCourse(courseId);
-
-    _isEnrolling = false;
-    notifyListeners();
 
     return response;
   }
 
   Future<Either<String, String>> createCourse(Map<String, dynamic> courseData) async {
     _errorMessage = '';
-    _isCreating = true;
     notifyListeners();
 
     final response = await _courseService.createCourse(courseData);
-
-    _isCreating = false;
-    notifyListeners();
 
     return response;
   }

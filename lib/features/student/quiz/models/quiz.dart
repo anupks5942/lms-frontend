@@ -1,11 +1,13 @@
+import '../../course/models/course.dart';
 
 class Quiz {
   final String id;
   final String title;
-  final String course;
+  final Course course;
   final List<Question> questions;
   final CreatedBy createdBy;
   final DateTime createdAt;
+  final List<String> attemptedBy;
 
   Quiz({
     required this.id,
@@ -14,19 +16,20 @@ class Quiz {
     required this.questions,
     required this.createdBy,
     required this.createdAt,
+    required this.attemptedBy,
   });
 
   factory Quiz.fromJson(Map<String, dynamic> json) {
     return Quiz(
       id: json['_id'] as String? ?? '',
       title: json['title'] as String? ?? '',
-      course: json['course'] as String? ?? '',
-      questions: (json['questions'] as List<dynamic>?)
-              ?.map((q) => Question.fromJson(q as Map<String, dynamic>))
-              .toList() ??
+      course: Course.fromJson(json['course'] as Map<String, dynamic>? ?? {}),
+      questions:
+          (json['questions'] as List<dynamic>?)?.map((q) => Question.fromJson(q as Map<String, dynamic>)).toList() ??
           [],
       createdBy: CreatedBy.fromJson(json['createdBy'] as Map<String, dynamic>? ?? {}),
       createdAt: DateTime.parse(json['createdAt'] as String? ?? DateTime.now().toIso8601String()),
+      attemptedBy: (json['attemptedBy'] as List<dynamic>?)?.cast<String>() ?? [],
     );
   }
 
@@ -34,10 +37,11 @@ class Quiz {
     return {
       '_id': id,
       'title': title,
-      'course': course,
+      'course': course.toJson(),
       'questions': questions.map((q) => q.toJson()).toList(),
       'createdBy': createdBy.toJson(),
       'createdAt': createdAt.toIso8601String(),
+      'attemptedBy': attemptedBy,
     };
   }
 }
@@ -68,13 +72,7 @@ class Question {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'questionText': questionText,
-      'type': type,
-      'options': options,
-      'correctAnswer': correctAnswer,
-    };
+    return {'_id': id, 'questionText': questionText, 'type': type, 'options': options, 'correctAnswer': correctAnswer};
   }
 }
 
@@ -82,22 +80,13 @@ class CreatedBy {
   final String id;
   final String name;
 
-  CreatedBy({
-    required this.id,
-    required this.name,
-  });
+  CreatedBy({required this.id, required this.name});
 
   factory CreatedBy.fromJson(Map<String, dynamic> json) {
-    return CreatedBy(
-      id: json['_id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-    );
+    return CreatedBy(id: json['_id'] as String? ?? '', name: json['name'] as String? ?? '');
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'name': name,
-    };
+    return {'_id': id, 'name': name};
   }
 }
