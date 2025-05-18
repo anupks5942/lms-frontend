@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:lms1/features/student/course/pages/course_details_screen.dart';
 import 'package:lms1/features/home/home_screen.dart';
+import 'package:lms1/features/student/course/pages/students_screen.dart';
 import 'package:lms1/features/student/quiz/models/quiz.dart';
 import 'package:lms1/features/student/quiz/pages/attempt_quiz_screen.dart';
 import '../../features/auth/pages/login_or_register_screen.dart';
@@ -94,6 +95,16 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         return VideoPlayerScreen(youtubeLink: extra['youtubeLink'] as String, title: extra['title'] as String);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.students,
+      builder: (context, state) {
+        final course = state.extra as Course?;
+        if (course == null) {
+          return const HomeScreen();
+        }
+        return EnrolledStudentsScreen(course: course);
       },
     ),
   ],

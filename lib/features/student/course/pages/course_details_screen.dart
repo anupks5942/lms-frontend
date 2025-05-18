@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lms1/core/constants/app_routes.dart';
+import 'package:lms1/core/services/logger.dart';
 import 'package:lms1/core/widgets/custom_loading_dialog.dart';
 import 'package:lms1/core/widgets/custom_snackbar.dart';
 import 'package:lms1/features/home/home_provider.dart';
@@ -26,11 +27,18 @@ class CourseDetailsScreen extends StatelessWidget {
     final user = context.read<AuthProvider>().getUser();
     final isStudent = user?.role == 'student';
     final isEnrolled = course.students.any((student) => student.id == user?.id);
+    final isTeacherCreated = course.teacher.id == user?.id;
+
+    Logger.info("user: ${user?.toJson()}");
+    Logger.info("course: ${course.toJson()}");
+    Logger.info("isEnrolled: $isEnrolled");
+    Logger.info("isTeacherCreated: $isTeacherCreated");
+    Logger.info("isStudent: $isStudent");
 
     return Scaffold(
       appBar: AppBar(elevation: 0, title: const Text('Course'), centerTitle: true),
       bottomNavigationBar:
-          !isEnrolled && isStudent
+          isEnrolled == false && isStudent == true
               ? Padding(
                 padding: EdgeInsets.all(4.w),
                 child: SizedBox(
@@ -132,49 +140,61 @@ class CourseDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 5.w,
-                        backgroundColor: colorScheme.tertiaryContainer,
-                        child: Icon(Icons.people_outlined, size: 5.w, color: colorScheme.onTertiaryContainer),
-                      ),
-                      SizedBox(width: 2.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  InkWell(
+                    onTap: () {
+                      context.push(AppRoutes.students, extra: course);
+                    },
+                    child: SizedBox(
+                      child: Row(
                         children: [
-                          Text('Students', style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant)),
-                          Text(
-                            '$studentCount',
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: colorScheme.onSurface,
-                            ),
+                          CircleAvatar(
+                            radius: 5.w,
+                            backgroundColor: colorScheme.tertiaryContainer,
+                            child: Icon(Icons.people_outlined, size: 5.w, color: colorScheme.onTertiaryContainer),
+                          ),
+                          SizedBox(width: 2.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Students',
+                                style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant),
+                              ),
+                              Text(
+                                '$studentCount',
+                                style: textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: colorScheme.onSurface,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 3.h),
-              Divider(color: colorScheme.onSurfaceVariant),
-              ListTile(
-                title: Text('Lectures', style: textTheme.titleLarge),
-                trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
-                onTap: () {
-                  context.push(AppRoutes.lectures, extra: course.id);
-                },
-              ),
-              Divider(color: colorScheme.onSurfaceVariant),
-              ListTile(
-                title: Text('Quizzes', style: textTheme.titleLarge),
-                trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
-                onTap: () {
-                  context.push(AppRoutes.quizzes, extra: course.id);
-                },
-              ),
-              Divider(color: colorScheme.onSurfaceVariant),
+              if (isEnrolled || isTeacherCreated) ...[
+                SizedBox(height: 3.h),
+                Divider(color: colorScheme.onSurfaceVariant),
+                ListTile(
+                  title: Text('Lectures', style: textTheme.titleLarge),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
+                  onTap: () {
+                    context.push(AppRoutes.lectures, extra: course.id);
+                  },
+                ),
+                Divider(color: colorScheme.onSurfaceVariant),
+                ListTile(
+                  title: Text('Quizzes', style: textTheme.titleLarge),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
+                  onTap: () {
+                    context.push(AppRoutes.quizzes, extra: course.id);
+                  },
+                ),
+                Divider(color: colorScheme.onSurfaceVariant),
+              ],
             ],
           ),
         ),

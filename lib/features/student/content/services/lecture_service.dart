@@ -29,4 +29,24 @@ class LectureService {
       return Left('Unexpected error: $e');
     }
   }
+
+  Future<Either<String, Unit>> createLecture(String courseId, Map<String, dynamic> lectureData) async {
+    try {
+      final response = await _dio.post('${ApiRoutes.courses}/$courseId/lectures', data: lectureData);
+
+      Logger.debug("Response: $response");
+
+      if (response.statusCode == 201) {
+        return const Right(unit);
+      } else {
+        return Left(response.statusMessage ?? 'Failed creating lecture');
+      }
+    } on DioException catch (e, s) {
+      Logger.debug("DioException while creating lecture: $e\n\n$s");
+      return Left(DioService.handleDioError(e));
+    } catch (e, s) {
+      Logger.debug("Catch error while creating lecture: $e\n\n$s");
+      return Left('Unexpected error: $e');
+    }
+  }
 }

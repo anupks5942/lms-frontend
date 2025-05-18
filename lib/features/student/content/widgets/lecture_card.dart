@@ -5,9 +5,10 @@ import 'package:sizer/sizer.dart';
 import '../models/lecture_model.dart';
 
 class LectureCard extends StatelessWidget {
+  final int index;
   final Lecture lecture;
 
-  const LectureCard({super.key, required this.lecture});
+  const LectureCard({super.key, required this.index, required this.lecture});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,6 @@ class LectureCard extends StatelessWidget {
       elevation: 2,
       color: colorScheme.surfaceContainerHighest,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
       child: InkWell(
         onTap: () {
           context.push(AppRoutes.video, extra: {'youtubeLink': lecture.youtubeLink, 'title': lecture.title});
@@ -30,17 +30,21 @@ class LectureCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                lecture.title,
-                style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              Row(
+                children: [
+                  Text(
+                    "Lecture ${index + 1}: ",
+                    style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                    maxLines: 2,
+                  ),
+                  Text(lecture.title, maxLines: 2, style: textTheme.titleMedium, overflow: TextOverflow.ellipsis),
+                ],
               ),
               SizedBox(height: 1.h),
               Text(
                 lecture.description,
                 style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
-                maxLines: 3,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 1.h),

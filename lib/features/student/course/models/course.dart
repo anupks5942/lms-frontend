@@ -19,14 +19,19 @@ class Teacher {
 class Student {
   final String id;
   final String name;
+  final String email;
 
-  Student({required this.id, this.name = ''});
+  Student({required this.id, this.name = '', this.email = ''});
 
   factory Student.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
       return Student(id: '');
     }
-    return Student(id: json['_id'] as String? ?? '', name: json['name'] as String? ?? '');
+    return Student(
+      id: json['_id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {

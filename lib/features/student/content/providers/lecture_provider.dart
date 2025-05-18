@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import '../models/lecture_model.dart';
 import '../services/lecture_service.dart';
 
@@ -27,5 +28,20 @@ class LectureProvider with ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  Future<Either<String, Unit>> createLecture(String courseId, Map<String, dynamic> lectureData) async {
+    _errorMessage = '';
+    _isLoading = true;
+    notifyListeners();
+
+    final response = await _lectureService.createLecture(courseId, lectureData);
+
+    response.match((err) => _errorMessage = err, (_) => null);
+
+    _isLoading = false;
+    notifyListeners();
+
+    return response;
   }
 }

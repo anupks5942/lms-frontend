@@ -38,35 +38,17 @@ class CourseService {
     }
   }
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
   Future<Either<String, List<Course>>> getEnrolledCourses(String id) async {
     try {
       final response = await _dio.get('${ApiRoutes.courses}${ApiRoutes.enrolledCourses}$id');
+
+      Logger.info("getEnrolledCourses response: ${response.data}");
 
       if (response.statusCode == 200) {
         final courseData = response.data['courses'] as List<dynamic>;
         final courses = courseData.map((item) => Course.fromJson(item)).toList();
 
+        Logger.info("courses: ${courses.map((course) => course.toJson())}");
         return Right(courses);
       } else {
         return Left(response.statusMessage ?? 'Failed fetching courses');

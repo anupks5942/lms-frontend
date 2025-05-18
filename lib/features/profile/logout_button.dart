@@ -47,13 +47,10 @@ class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: () => _showLogoutDialog(context),
-        icon: const Icon(Icons.logout),
-        label: Text('Logout', style: theme.textTheme.labelLarge),
-      ),
+    return ListTile(
+      leading: Icon(Icons.logout, color: theme.colorScheme.error),
+      title: const Text('Logout'),
+      onTap: () => _showLogoutDialog(context),
     );
   }
 }

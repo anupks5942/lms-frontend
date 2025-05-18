@@ -44,7 +44,7 @@ class CourseProvider with ChangeNotifier {
   Future<void> fetchCourses({bool isRefresh = false}) async {
     if (isRefresh) {
       _searchQuery = '';
-      _selectedCategory = 'All'; 
+      _selectedCategory = 'All';
     }
     _errorMessage = '';
     _isAllLoading = true;
@@ -80,23 +80,10 @@ class CourseProvider with ChangeNotifier {
 
   void clearSearch() {
     _searchQuery = '';
-    _selectedCategory = 'All'; 
+    _selectedCategory = 'All';
     fetchCourses();
     notifyListeners();
   }
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   Future<void> getEnrolledCourses(BuildContext context) async {
     _errorMessage = '';

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lms1/features/profile/logout_button.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../../core/theme/theme_provider.dart';
+import '../../core/theme/theme_selection_dialog.dart';
 import '../auth/providers/auth_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -10,6 +12,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
     final user = context.read<AuthProvider>().getUser();
 
     return Scaffold(
@@ -19,34 +23,44 @@ class ProfileScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 15.w,
-              backgroundColor: theme.colorScheme.primaryContainer,
-              child: Icon(Icons.person, size: 20.w, color: theme.colorScheme.primary),
+              backgroundColor: colorScheme.primaryContainer,
+              child: Icon(Icons.person, size: 20.w, color: colorScheme.primary),
             ),
             SizedBox(height: 2.h),
             Text(
               user?.name ?? '',
-              style: theme.textTheme.headlineMedium?.copyWith(
+              style: textTheme.headlineMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onSurface,
-                overflow: TextOverflow.ellipsis
+                color: colorScheme.onSurface,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             SizedBox(height: 0.5.h),
-            Text(
-              user?.email ?? '',
-              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-            ),
+            Text(user?.email ?? '', style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant)),
             SizedBox(height: 0.5.h),
-            Text(
-              user?.role.toUpperCase() ?? '',
-              style: theme.textTheme.bodyMedium,
-            ),
+            Text(user?.role.toUpperCase() ?? '', style: textTheme.bodyMedium),
             SizedBox(height: 2.h),
-            const Spacer(),
-            const LogoutButton()
+            const Divider(),
+            ListTile(
+              leading: Icon(Icons.color_lens, color: colorScheme.onSurface),
+              title: const Text('Theme'),
+              subtitle: Text(
+                StringExtension(context.watch<ThemeProvider>().themeOption.toString().split('.').last).capitalize(),
+              ),
+              onTap: () => showDialog(context: context, builder: (context) => const ThemeSelectionDialog()),
+            ),
+            const Divider(),
+            const LogoutButton(),
+            const Divider(),
           ],
         ),
       ),
     );
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return '${this[0].toUpperCase()}${substring(1)}';
   }
 }

@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onDestinationSelected: (index) {
                 homeW.setIndex(index);
                 if (homeW.selectedIndex == 0) {
+                  context.read<CourseProvider>().clearSearch();
                   context.read<CourseProvider>().fetchCourses();
                 } else if (homeW.selectedIndex == 1) {
                   context.read<CourseProvider>().getEnrolledCourses(context);

@@ -7,4 +7,5 @@ class AppRoutes {
   static const String createQuiz = '/create-quiz';
   static const String lectures = '/lectures';
   static const String video = '/video';
+  static const String students = '/students';
 }
