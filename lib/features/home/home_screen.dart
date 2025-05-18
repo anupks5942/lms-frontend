@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lms1/core/services/logger.dart';
 import 'package:lms1/features/auth/providers/auth_provider.dart';
 import 'package:lms1/features/student/course/pages/all_courses_screen.dart';
 import 'package:lms1/features/student/course/pages/my_courses_screen.dart';
@@ -28,11 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     homeR = context.read<HomeProvider>();
+    user = context.read<AuthProvider>().getUser();
+    Logger.warning("User: ${user?.toJson()}");
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (homeR.selectedIndex != 1) {
         homeR.setIndex(1);
       }
-      user = context.read<AuthProvider>().getUser();
       if (user?.role == 'student') {
         context.read<CourseProvider>().getEnrolledCourses(context);
       } else {

@@ -25,7 +25,7 @@ class User {
   User({this.id = '', this.name = '', this.email = '', this.role = ''});
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'email': email, 'token': role};
+    return {'id': id, 'name': name, 'email': email, 'role': role};
   }
 
   factory User.fromJson(Map<String, dynamic> json) =>
