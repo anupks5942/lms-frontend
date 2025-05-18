@@ -52,4 +52,24 @@ class QuizService {
       return Left('Unexpected error: $e');
     }
   }
+
+  Future<Either<String, Unit>> createQuiz(String courseId, Map<String, dynamic> quizData) async {
+    try {
+      final response = await _dio.post('${ApiRoutes.quizzes}$courseId', data: quizData);
+
+      Logger.debug("Response: $response");
+
+      if (response.statusCode == 201) {
+        return const Right(unit);
+      } else {
+        return Left(response.data['message'] ?? response.statusMessage ?? 'Failed to create quiz');
+      }
+    } on DioException catch (e, s) {
+      Logger.debug("DioException while creating quiz: $e\n\n$s");
+      return Left(DioService.handleDioError(e));
+    } catch (e, s) {
+      Logger.debug("Catch error while creating quiz: $e\n\n$s");
+      return Left('Unexpected error: $e');
+    }
+  }
 }

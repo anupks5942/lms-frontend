@@ -160,9 +160,11 @@ class CourseDetailsScreen extends StatelessWidget {
               SizedBox(height: 3.h),
               Divider(color: colorScheme.onSurfaceVariant),
               ListTile(
-                title: Text('Content', style: textTheme.titleLarge),
+                title: Text('Lectures', style: textTheme.titleLarge),
                 trailing: Icon(Icons.arrow_forward_ios, size: 4.w),
-                onTap: () {},
+                onTap: () {
+                  context.push(AppRoutes.lectures, extra: course.id);
+                },
               ),
               Divider(color: colorScheme.onSurfaceVariant),
               ListTile(

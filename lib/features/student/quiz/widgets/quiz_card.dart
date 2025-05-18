@@ -6,7 +6,6 @@ import '../../../../core/constants/app_routes.dart';
 import '../../../auth/providers/auth_provider.dart';
 import '../models/quiz.dart';
 import 'package:intl/intl.dart';
-
 import '../providers/quizzes_provider.dart';
 
 class QuizCard extends StatelessWidget {

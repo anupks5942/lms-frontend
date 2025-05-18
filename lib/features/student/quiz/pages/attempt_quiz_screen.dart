@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lms1/core/constants/app_routes.dart';
 import 'package:lms1/core/widgets/custom_loading_dialog.dart';
 import 'package:lms1/core/widgets/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/widgets/success_dialog.dart';
+import '../../../auth/providers/auth_provider.dart';
 import '../models/quiz.dart';
 import '../providers/quizzes_provider.dart';
 
@@ -32,56 +32,63 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
     final quizProvider = context.watch<QuizProvider>();
+    final user = context.read<AuthProvider>().getUser();
     final selectedAnswers = quizProvider.selectedAnswers;
 
     return Scaffold(
-      appBar: AppBar(elevation: 0, title: Text(widget.quiz.title, overflow: TextOverflow.ellipsis), centerTitle: false),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(4.w),
-        child: SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed:
-                selectedAnswers.contains(null)
-                    ? null
-                    : () async {
-                      context.showDialog(message: 'Submitting...');
-                      final response = await context.read<QuizProvider>().submitQuiz(widget.quiz.id, selectedAnswers);
-                      if (context.mounted) {
-                        context.hideDialog();
-                        response.match(
-                          (err) {
-                            context.showCustomSnackBar(message: err, type: SnackBarType.error);
-                          },
-                          (score) {
-                            showDialog(
-                              context: context,
-                              builder:
-                                  (context) => SuccessDialog(
-                                    message: 'You scored $score marks!',
-                                    onOkPressed: () {
-                                      context.pop();
-                                      context.pop();
-                                      context.read<QuizProvider>().getAllQuizzes(widget.quiz.course.id);
-                                    },
-                                  ),
-                            );
-                          },
-                        );
-                      }
-                    },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
-              foregroundColor: colorScheme.onPrimary,
-              padding: EdgeInsets.symmetric(vertical: 1.5.h),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 2,
-              textStyle: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-            ),
-            child: const Text('Submit Quiz'),
-          ),
-        ),
-      ),
+      appBar: AppBar(elevation: 0, title: Text(widget.quiz.title, overflow: TextOverflow.ellipsis)),
+      bottomNavigationBar:
+          user?.role == 'student'
+              ? Padding(
+                padding: EdgeInsets.all(4.w),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed:
+                        selectedAnswers.contains(null)
+                            ? null
+                            : () async {
+                              context.showDialog(message: 'Submitting...');
+                              final response = await context.read<QuizProvider>().submitQuiz(
+                                widget.quiz.id,
+                                selectedAnswers,
+                              );
+                              if (context.mounted) {
+                                context.hideDialog();
+                                response.match(
+                                  (err) {
+                                    context.showCustomSnackBar(message: err, type: SnackBarType.error);
+                                  },
+                                  (score) {
+                                    showDialog(
+                                      context: context,
+                                      builder:
+                                          (context) => SuccessDialog(
+                                            message: 'You scored $score marks!',
+                                            onOkPressed: () {
+                                              context.pop();
+                                              context.pop();
+                                              context.read<QuizProvider>().getAllQuizzes(widget.quiz.course.id);
+                                            },
+                                          ),
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
+                      padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 2,
+                      textStyle: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    child: const Text('Submit Quiz'),
+                  ),
+                ),
+              )
+              : null,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(4.w),

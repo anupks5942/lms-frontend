@@ -59,5 +59,5 @@ void showCustomAlertDialog({
             );
           },
         ),
-  ).then((_) => timer?.cancel()); // Clean up timer when dialog is dismissed
+  ).then((_) => timer?.cancel()); 
 }

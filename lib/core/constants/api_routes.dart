@@ -10,4 +10,7 @@ class ApiRoutes {
   static const String quizzes = '/quizzes/';
   static const String quizzesOfCourse = 'course/';
   static const String submitQuiz = '/submit';
+  static const String category = '/category';
+  static const String search = '/search';
+  static const String lectures = '/lectures';
 }

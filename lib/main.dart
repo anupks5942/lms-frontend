@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lms1/features/student/content/providers/lecture_provider.dart';
 import 'package:lms1/features/student/course/providers/course_provider.dart';
 import 'package:lms1/features/student/quiz/providers/quizzes_provider.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => HomeProvider()),
         ChangeNotifierProvider(create: (context) => CourseProvider()),
         ChangeNotifierProvider(create: (context) => QuizProvider()),
+        ChangeNotifierProvider(create: (context) => LectureProvider()),
       ],
       child: Sizer(
         builder: (context, orientation, deviceType) {

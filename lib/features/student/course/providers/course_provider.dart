@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:lms1/features/auth/providers/auth_provider.dart';
@@ -15,6 +16,9 @@ class CourseProvider with ChangeNotifier {
   List<Course> _myCourses = [];
   List<Course> _createdCourses = [];
   String _errorMessage = '';
+  String _selectedCategory = 'All';
+  String _searchQuery = '';
+  Timer? _debounceTimer;
 
   bool get isAllLoading => _isAllLoading;
   bool get isMyLoading => _isMyLoading;
@@ -23,19 +27,76 @@ class CourseProvider with ChangeNotifier {
   List<Course> get myCourses => _myCourses;
   List<Course> get createdCourses => _createdCourses;
   String get errorMessage => _errorMessage;
+  String? get selectedCategory => _selectedCategory;
+  String get searchQuery => _searchQuery;
 
-  Future<void> getAllCourses() async {
+  List<String> categories = [
+    'Technology',
+    'Science & Math',
+    'Business',
+    'Arts & Humanities',
+    'Health & Lifestyle',
+    'Education',
+    'Language',
+    'Other',
+  ];
+
+  Future<void> fetchCourses({bool isRefresh = false}) async {
+    if (isRefresh) {
+      _searchQuery = '';
+      _selectedCategory = 'All'; 
+    }
     _errorMessage = '';
     _isAllLoading = true;
     notifyListeners();
 
-    final response = await _courseService.getAllCourses();
+    final response = await _courseService.fetchCourses(
+      category: _selectedCategory != 'All' ? _selectedCategory : null,
+      searchQuery: _searchQuery.isNotEmpty ? _searchQuery : null,
+    );
 
     response.match((err) => _errorMessage = err, (courses) => _allCourses = courses);
 
     _isAllLoading = false;
     notifyListeners();
   }
+
+  void setCategory(String category) {
+    if (category.isNotEmpty && (categories.contains(category) || category == 'All')) {
+      _selectedCategory = category;
+      fetchCourses();
+      notifyListeners();
+    }
+  }
+
+  void setSearchQuery(String query) {
+    _searchQuery = query;
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      fetchCourses();
+    });
+    notifyListeners();
+  }
+
+  void clearSearch() {
+    _searchQuery = '';
+    _selectedCategory = 'All'; 
+    fetchCourses();
+    notifyListeners();
+  }
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   Future<void> getEnrolledCourses(BuildContext context) async {
     _errorMessage = '';
@@ -63,7 +124,6 @@ class CourseProvider with ChangeNotifier {
     _isCreatedLoading = false;
     notifyListeners();
   }
-
 
   Future<Either<String, String>> enrollIntoCourse(String courseId) async {
     _errorMessage = '';

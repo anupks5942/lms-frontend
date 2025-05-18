@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         context.read<CourseProvider>().getCreatedCourses(context);
       }
-      context.read<CourseProvider>().getAllCourses();
+      context.read<CourseProvider>().fetchCourses();
     });
     super.initState();
   }
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, homeW, _) {
             return SafeArea(
               child: Padding(
-                padding: EdgeInsets.all(4.w),
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0),
                 child: IndexedStack(
                   index: homeW.selectedIndex,
                   children: [
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onDestinationSelected: (index) {
                 homeW.setIndex(index);
                 if (homeW.selectedIndex == 0) {
-                  context.read<CourseProvider>().getAllCourses();
+                  context.read<CourseProvider>().fetchCourses();
                 } else if (homeW.selectedIndex == 1) {
                   context.read<CourseProvider>().getEnrolledCourses(context);
                 }

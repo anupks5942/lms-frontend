@@ -16,8 +16,9 @@ class CreatedCoursesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        tooltip: 'Create course',
         onPressed: () => _showCreateCourseDialog(context),
+        child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
         onRefresh: () => context.read<CourseProvider>().getCreatedCourses(context),
@@ -98,49 +99,135 @@ class CreatedCoursesScreen extends StatelessWidget {
   void _showCreateCourseDialog(BuildContext context) {
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
+    String? selectedCategory;
 
     showDialog(
       context: context,
       builder: (context) {
+        final theme = Theme.of(context);
+        final textTheme = theme.textTheme;
+        final colorScheme = theme.colorScheme;
+        final courseProvider = context.watch<CourseProvider>();
+
         return AlertDialog(
-          title: const Text('Create Course'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextField(
-                controller: titleController,
-                hintText: 'Title',
-                validator: ValidationService.courseValidation,
-              ),
-              SizedBox(height: 2.h),
-              CustomTextField(
-                controller: descriptionController,
-                hintText: 'Description',
-                validator: ValidationService.courseValidation,
-              ),
-            ],
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: colorScheme.surfaceContainer,
+          title: Text(
+            'Create Course',
+            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  controller: titleController,
+                  hintText: 'Title',
+                  validator: ValidationService.courseValidation,
+                ),
+                SizedBox(height: 2.h),
+                CustomTextField(
+                  controller: descriptionController,
+                  hintText: 'Description',
+                  validator: ValidationService.courseValidation,
+                ),
+                SizedBox(height: 2.h),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: colorScheme.outlineVariant, width: 1),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value:
+                        selectedCategory ??
+                        (courseProvider.categories.isNotEmpty ? courseProvider.categories.first : null),
+                    items:
+                        courseProvider.categories.isNotEmpty
+                            ? courseProvider.categories
+                                .map(
+                                  (category) => DropdownMenuItem(
+                                    value: category,
+                                    child: Text(
+                                      category,
+                                      style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                                    ),
+                                  ),
+                                )
+                                .toList()
+                            : [
+                              DropdownMenuItem(
+                                value: null,
+                                child: Text(
+                                  'No categories',
+                                  style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                                ),
+                              ),
+                            ],
+                    onChanged:
+                        courseProvider.categories.isNotEmpty
+                            ? (value) {
+                              selectedCategory = value;
+                              (context as Element).markNeedsBuild();
+                            }
+                            : null,
+                    underline: const SizedBox(),
+                    icon: Icon(Icons.arrow_drop_down, color: colorScheme.onSurfaceVariant),
+                    borderRadius: BorderRadius.circular(12),
+                    dropdownColor: colorScheme.surfaceContainerHighest,
+                    hint: Text(
+                      'Select category',
+                      style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
-            TextButton(onPressed: context.pop, child: const Text('Cancel')),
+            TextButton(
+              onPressed: () => context.pop(),
+              style: TextButton.styleFrom(
+                foregroundColor: colorScheme.onSurfaceVariant,
+                textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              child: const Text('Cancel'),
+            ),
             TextButton(
               onPressed: () async {
+                final title = titleController.text.trim();
+                final description = descriptionController.text.trim();
+                if (ValidationService.courseValidation(title) != null ||
+                    ValidationService.courseValidation(description) != null ||
+                    selectedCategory == null) {
+                  context.showCustomSnackBar(message: 'Please fill all fields correctly', type: SnackBarType.error);
+                  return;
+                }
                 context.showDialog(message: 'Creating course...');
-                final data = {'title': titleController.text.trim(), 'description': descriptionController.text.trim()};
+                final data = {'title': title, 'description': description, 'category': selectedCategory};
                 final response = await context.read<CourseProvider>().createCourse(data);
                 if (context.mounted) {
                   context.pop();
                   context.pop();
+                  response.match(
+                    (err) {
+                      context.showCustomSnackBar(message: err, type: SnackBarType.error);
+                    },
+                    (_) {
+                      context.showCustomSnackBar(message: 'Course created successfully', type: SnackBarType.success);
+                      context.read<CourseProvider>().getCreatedCourses(context);
+                    },
+                  );
                 }
-                response.match(
-                  (err) {
-                    context.showCustomSnackBar(message: err, type: SnackBarType.error);
-                  },
-                  (_) {
-                    context.showCustomSnackBar(message: 'Course created successfully', type: SnackBarType.success);
-                    context.read<CourseProvider>().getCreatedCourses(context);
-                  },
-                );
               },
+              style: TextButton.styleFrom(
+                foregroundColor: colorScheme.primary,
+                textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+              ),
               child: const Text('Create'),
             ),
           ],
