@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:lms1/core/theme/theme_provider.dart';
 import 'package:lms1/features/student/content/providers/lecture_provider.dart';
 import 'package:lms1/features/student/course/providers/course_provider.dart';
@@ -13,9 +14,7 @@ import 'core/services/storage_manager.dart';
 import 'features/auth/providers/auth_provider.dart';
 import 'features/home/home_provider.dart';
 
-// display > headline > title > body > label
-
-void main() async {
+void main() {
   FlutterError.onError = (details) {
     Logger.error('FlutterError: ${details.exception}\nStack: ${details.stack}');
   };
@@ -23,6 +22,7 @@ void main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
       await StorageManager.initializeSharedPreferences();
       runApp(const MyApp());
     },
@@ -32,8 +32,21 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterNativeSplash.remove();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +70,7 @@ class MyApp extends StatelessWidget {
                 },
                 child: MaterialApp.router(
                   routerConfig: appRouter,
-                  title: 'EduLearn',
+                  title: 'EduCore',
                   themeMode: themeProvider.themeMode,
                   theme: AppTheme.light,
                   darkTheme: AppTheme.dark,

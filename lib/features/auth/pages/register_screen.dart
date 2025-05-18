@@ -17,10 +17,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  
-  
-  
-  
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -55,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             message: 'Please check your mail to verify and then login.',
             buttonText: 'Login',
             onButtonPressed: authProvider.toggleLoginView,
-            seconds: 5
+            seconds: 5,
           );
         },
       );
@@ -86,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         SizedBox(height: 4.h),
         _buildLoginForm(),
         SizedBox(height: 3.h),
-        _buildLoginButton(),
+        _buildRegisterButton(),
         SizedBox(height: 3.h),
         _buildSignUpOption(),
       ],
@@ -150,14 +146,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ),
   );
 
-  Widget _buildLoginButton() => Consumer<AuthProvider>(
-    builder:
-        (context, provider, child) => SizedBox(
-          width: double.infinity,
-          height: 6.h,
-          child: ElevatedButton(onPressed: _register, child: const Text('Sign up')),
-        ),
-  );
+  Widget _buildRegisterButton() {
+    final theme = Theme.of(context);
+    return Consumer<AuthProvider>(
+      builder:
+          (context, provider, child) => SizedBox(
+            width: double.infinity,
+            height: 6.h,
+            child: ElevatedButton(
+              onPressed: _register,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+                padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                elevation: 2,
+                textStyle: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              child: const Text('Sign up'),
+            ),
+          ),
+    );
+  }
 
   Widget _buildSignUpOption() => Row(
     mainAxisAlignment: MainAxisAlignment.center,

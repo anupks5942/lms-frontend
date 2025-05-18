@@ -18,10 +18,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'anupsoni404@gmail.com');
-  final _passwordController = TextEditingController(text: 'Anup123');
-  
-  
+  // final _emailController = TextEditingController(text: 'anupsoni404@gmail.com');
+  // final _passwordController = TextEditingController(text: 'Anup123');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   late AuthProvider authProvider;
 
   void _logIn() async {
@@ -114,20 +115,34 @@ class _LoginScreenState extends State<LoginScreen> {
     ),
   );
 
-  Widget _buildLoginButton() => Consumer<AuthProvider>(
-    builder:
-        (context, provider, child) => SizedBox(
-          width: double.infinity,
-          height: 6.h,
-          child: ElevatedButton(onPressed: _logIn, child: const Text('Login')),
-        ),
-  );
+  Widget _buildLoginButton() {
+    final theme = Theme.of(context);
+    return Consumer<AuthProvider>(
+      builder:
+          (context, provider, child) => SizedBox(
+            width: double.infinity,
+            height: 6.h,
+            child: ElevatedButton(
+              onPressed: _logIn,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+                padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                elevation: 2,
+                textStyle: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              child: const Text('Login'),
+            ),
+          ),
+    );
+  }
 
   Widget _buildSignUpOption() => Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       const Text("Don't have an account?"),
-      TextButton(onPressed: () => authProvider.toggleLoginView(), child: const Text('Sign Up')),
+      TextButton(onPressed: () => authProvider.toggleLoginView(), child: const Text('Sign up')),
     ],
   );
 }

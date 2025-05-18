@@ -24,12 +24,11 @@ class _LoginOrRegisterScreenState extends State<LoginOrRegisterScreen> {
             padding: EdgeInsets.all(4.w),
             child: Column(
               children: [
-                SizedBox(height: 4.h),
                 Row(
                   children: [
                     Icon(Icons.school, size: 8.w),
                     SizedBox(width: 4.w),
-                    Text('EduLearn', style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                    Text('EduCore', style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
                   ],
                 ),
                 SizedBox(height: 3.h),
