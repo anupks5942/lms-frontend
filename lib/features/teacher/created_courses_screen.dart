@@ -5,6 +5,7 @@ import 'package:lms1/core/widgets/custom_loading_dialog.dart';
 import 'package:lms1/core/widgets/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../../core/widgets/greeting_header.dart';
 import '../student/course/providers/course_provider.dart';
 import '../student/course/widgets/course_card.dart';
 
@@ -23,12 +24,20 @@ class CreatedCoursesScreen extends StatelessWidget {
         onRefresh: () => context.read<CourseProvider>().getCreatedCourses(context),
         child: Consumer<CourseProvider>(
           builder: (context, courseProvider, child) {
-            return SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: 80.h),
-                child: _buildCourses(context, courseProvider),
-              ),
+            return Column(
+              children: [
+                SizedBox(height: 1.h),
+                const GreetingHeader(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: 80.h),
+                      child: _buildCourses(context, courseProvider),
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),

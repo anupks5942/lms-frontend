@@ -24,11 +24,9 @@ final GoRouter appRouter = GoRouter(
       final isLoginRoute = state.uri.toString() == AppRoutes.login;
 
       if (!isAuthenticated && !isLoginRoute) {
-        Logger.info('Redirecting to login: Not authenticated');
         return AppRoutes.login;
       }
       if (isAuthenticated && isLoginRoute) {
-        Logger.info('Redirecting to home: Authenticated');
         return AppRoutes.home;
       }
       return null;

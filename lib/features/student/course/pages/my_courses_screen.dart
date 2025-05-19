@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms1/core/widgets/greeting_header.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../widgets/course_card.dart';
@@ -14,12 +15,20 @@ class MyCoursesScreen extends StatelessWidget {
         onRefresh: () => context.read<CourseProvider>().getEnrolledCourses(context),
         child: Consumer<CourseProvider>(
           builder: (context, courseProvider, child) {
-            return SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: 80.h),
-                child: _buildCourses(context, courseProvider),
-              ),
+            return Column(
+              children: [
+                SizedBox(height: 1.h),
+                const GreetingHeader(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: 80.h),
+                      child: _buildCourses(context, courseProvider),
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),

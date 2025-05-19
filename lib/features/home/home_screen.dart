@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lms1/core/services/logger.dart';
 import 'package:lms1/features/auth/providers/auth_provider.dart';
 import 'package:lms1/features/student/course/pages/all_courses_screen.dart';
 import 'package:lms1/features/student/course/pages/my_courses_screen.dart';
@@ -19,6 +18,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   List<IconData> get _icons => [Icons.auto_stories, Icons.bookmark, Icons.person];
   late CourseProvider courseR;
@@ -31,12 +31,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     super.initState();
     homeR = context.read<HomeProvider>();
     user = context.read<AuthProvider>().getUser();
-    Logger.warning("User: ${user?.toJson()}");
 
     _tabController = TabController(length: 3, vsync: this, initialIndex: homeR.selectedIndex);
 
     _tabController.addListener(() {
-      // Only update when swipe ends and index changed
       if (!_tabController.indexIsChanging && homeR.selectedIndex != _tabController.index) {
         homeR.setIndex(_tabController.index);
         _handleTabChange(_tabController.index);
@@ -44,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (homeR.selectedIndex != 1) homeR.setIndex(1);
       _handleTabChange(_tabController.index);
     });
   }
@@ -85,12 +84,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: TabBarView(
               controller: _tabController,
-              physics: const BouncingScrollPhysics(), // Optional: iOS-like scroll
+              physics: const BouncingScrollPhysics(),
               children: [
                 const AllCoursesScreen(),
-                user?.role == 'student'
-                    ? const MyCoursesScreen()
-                    : const CreatedCoursesScreen(),
+                user?.role == 'student' ? const MyCoursesScreen() : const CreatedCoursesScreen(),
                 const ProfileScreen(),
               ],
             ),
@@ -102,9 +99,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               selectedIndex: homeW.selectedIndex,
               onDestinationSelected: (index) {
                 homeR.setIndex(index);
+                _handleTabChange(index);
                 _tabController.animateTo(index);
               },
-              animationDuration: const Duration(milliseconds: 300),
               destinations: [
                 NavigationDestination(icon: Icon(_icons[0]), label: 'Explore'),
                 NavigationDestination(icon: Icon(_icons[1]), label: 'My Courses'),

@@ -30,11 +30,12 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
 
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => courseProvider.fetchCourses(isRefresh: true),
+        onRefresh: courseProvider.fetchCourses,
         color: colorScheme.primary,
         backgroundColor: colorScheme.surfaceContainer,
         child: Column(
           children: [
+            SizedBox(height: 1.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -151,11 +152,6 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
               ],
             ),
             SizedBox(height: 1.h),
-            if (courseProvider.isAllLoading && courseProvider.allCourses.isEmpty)
-              LinearProgressIndicator(
-                backgroundColor: colorScheme.primary.withValues(alpha: 0.2),
-                valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
-              ),
             Expanded(
               child: Consumer<CourseProvider>(
                 builder: (context, courseProvider, child) {
@@ -180,16 +176,8 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
 
-    if (courseProvider.isAllLoading && courseProvider.allCourses.isEmpty) {
-      return SizedBox(
-        height: 80.h,
-        child: Center(
-          child: CircularProgressIndicator(
-            color: colorScheme.primary,
-            backgroundColor: colorScheme.primary.withValues(alpha: 0.2),
-          ),
-        ),
-      );
+    if (courseProvider.isAllLoading) {
+      return SizedBox(height: 80.h, child: Center(child: CircularProgressIndicator(color: colorScheme.primary)));
     }
 
     if (courseProvider.errorMessage.isNotEmpty) {
