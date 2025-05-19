@@ -19,30 +19,52 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   List<IconData> get _icons => [Icons.auto_stories, Icons.bookmark, Icons.person];
   late CourseProvider courseR;
   late HomeProvider homeR;
+  late TabController _tabController;
   User? user;
 
   @override
   void initState() {
+    super.initState();
     homeR = context.read<HomeProvider>();
     user = context.read<AuthProvider>().getUser();
     Logger.warning("User: ${user?.toJson()}");
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (homeR.selectedIndex != 1) {
-        homeR.setIndex(1);
+
+    _tabController = TabController(length: 3, vsync: this, initialIndex: homeR.selectedIndex);
+
+    _tabController.addListener(() {
+      // Only update when swipe ends and index changed
+      if (!_tabController.indexIsChanging && homeR.selectedIndex != _tabController.index) {
+        homeR.setIndex(_tabController.index);
+        _handleTabChange(_tabController.index);
       }
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleTabChange(_tabController.index);
+    });
+  }
+
+  void _handleTabChange(int index) {
+    if (index == 0) {
+      context.read<CourseProvider>().clearSearch();
+      context.read<CourseProvider>().fetchCourses();
+    } else if (index == 1) {
       if (user?.role == 'student') {
         context.read<CourseProvider>().getEnrolledCourses(context);
       } else {
         context.read<CourseProvider>().getCreatedCourses(context);
       }
-      context.read<CourseProvider>().fetchCourses();
-    });
-    super.initState();
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,44 +73,38 @@ class _HomeScreenState extends State<HomeScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        if (homeR.selectedIndex != 1) {
-          homeR.setIndex(1);
+        if (_tabController.index != 1) {
+          _tabController.animateTo(1);
         } else {
           _showLogoutDialog(context);
         }
       },
       child: Scaffold(
-        body: Consumer<HomeProvider>(
-          builder: (context, homeW, _) {
-            return SafeArea(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0),
-                child: IndexedStack(
-                  index: homeW.selectedIndex,
-                  children: [
-                    const AllCoursesScreen(),
-                    user?.role == 'student' ? const MyCoursesScreen() : const CreatedCoursesScreen(),
-                    const ProfileScreen(),
-                  ],
-                ),
-              ),
-            );
-          },
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            child: TabBarView(
+              controller: _tabController,
+              physics: const BouncingScrollPhysics(), // Optional: iOS-like scroll
+              children: [
+                const AllCoursesScreen(),
+                user?.role == 'student'
+                    ? const MyCoursesScreen()
+                    : const CreatedCoursesScreen(),
+                const ProfileScreen(),
+              ],
+            ),
+          ),
         ),
         bottomNavigationBar: Consumer<HomeProvider>(
           builder: (context, homeW, child) {
             return NavigationBar(
               selectedIndex: homeW.selectedIndex,
               onDestinationSelected: (index) {
-                homeW.setIndex(index);
-                if (homeW.selectedIndex == 0) {
-                  context.read<CourseProvider>().clearSearch();
-                  context.read<CourseProvider>().fetchCourses();
-                } else if (homeW.selectedIndex == 1) {
-                  context.read<CourseProvider>().getEnrolledCourses(context);
-                }
+                homeR.setIndex(index);
+                _tabController.animateTo(index);
               },
-              animationDuration: const Duration(milliseconds: 1000),
+              animationDuration: const Duration(milliseconds: 300),
               destinations: [
                 NavigationDestination(icon: Icon(_icons[0]), label: 'Explore'),
                 NavigationDestination(icon: Icon(_icons[1]), label: 'My Courses'),
