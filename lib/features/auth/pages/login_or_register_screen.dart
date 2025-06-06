@@ -28,13 +28,20 @@ class _LoginOrRegisterScreenState extends State<LoginOrRegisterScreen> {
                   children: [
                     Icon(Icons.school, size: 8.w),
                     SizedBox(width: 4.w),
-                    Text('EduCore', style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                    Text(
+                      'EduCore',
+                      style: textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 3.h),
                 Consumer<AuthProvider>(
                   builder: (context, authProvider, child) {
-                    return authProvider.showLogin ? const LoginScreen() : const RegisterScreen();
+                    return authProvider.showLogin
+                        ? const LoginScreen()
+                        : const RegisterScreen();
                   },
                 ),
               ],

@@ -16,8 +16,8 @@ class ThemePreferences {
     return themeString != null
         ? ThemeOption.values.firstWhere(
           (e) => e.toString() == themeString,
-      orElse: () => ThemeOption.system,
-    )
+          orElse: () => ThemeOption.system,
+        )
         : ThemeOption.system;
   }
 }

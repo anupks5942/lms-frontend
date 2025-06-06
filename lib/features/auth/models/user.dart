@@ -13,7 +13,8 @@ class AuthModel {
   factory AuthModel.fromJson(Map<String, dynamic> json) =>
       AuthModel(token: json['token'], user: User.fromJson(json['user']));
 
-  factory AuthModel.fromString(String str) => AuthModel.fromJson(json.decode(str));
+  factory AuthModel.fromString(String str) =>
+      AuthModel.fromJson(json.decode(str));
 }
 
 class User {
@@ -28,8 +29,12 @@ class User {
     return {'id': id, 'name': name, 'email': email, 'role': role};
   }
 
-  factory User.fromJson(Map<String, dynamic> json) =>
-      User(id: json['_id'], name: json['name'], email: json['email'], role: json['role']);
+  factory User.fromJson(Map<String, dynamic> json) => User(
+    id: json['_id'],
+    name: json['name'],
+    email: json['email'],
+    role: json['role'],
+  );
 
   factory User.fromString(String str) => User.fromJson(json.decode(str));
 }

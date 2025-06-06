@@ -42,7 +42,10 @@ class CreateLectureDialogState extends State<CreateLectureDialog> {
 
     context.showDialog(message: 'Creating lecture...');
 
-    final response = await context.read<LectureProvider>().createLecture(widget.courseId, lectureData);
+    final response = await context.read<LectureProvider>().createLecture(
+      widget.courseId,
+      lectureData,
+    );
 
     if (mounted) context.hideDialog();
 
@@ -51,7 +54,10 @@ class CreateLectureDialogState extends State<CreateLectureDialog> {
         context.showCustomSnackBar(message: err, type: SnackBarType.error);
       },
       (_) {
-        context.showCustomSnackBar(message: 'Lecture created successfully', type: SnackBarType.success);
+        context.showCustomSnackBar(
+          message: 'Lecture created successfully',
+          type: SnackBarType.success,
+        );
         context.pop();
         context.read<LectureProvider>().getLectures(widget.courseId);
       },
@@ -78,22 +84,35 @@ class CreateLectureDialogState extends State<CreateLectureDialog> {
               children: [
                 Text(
                   'Create Lecture',
-                  style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                  style: textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
                 ),
                 SizedBox(height: 2.h),
                 TextFormField(
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: 'Lecture Title',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
                     filled: true,
                     fillColor: colorScheme.surfaceContainerLowest,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 4.w,
+                      vertical: 2.h,
+                    ),
                     hintStyle: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                      color: colorScheme.onSurfaceVariant.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ),
-                  style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
                   validator: ValidationService.requiredValidation,
                 ),
                 SizedBox(height: 2.h),
@@ -101,15 +120,25 @@ class CreateLectureDialogState extends State<CreateLectureDialog> {
                   controller: _descriptionController,
                   decoration: InputDecoration(
                     hintText: 'Description',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
                     filled: true,
                     fillColor: colorScheme.surfaceContainerLowest,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 4.w,
+                      vertical: 2.h,
+                    ),
                     hintStyle: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                      color: colorScheme.onSurfaceVariant.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ),
-                  style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
                   validator: ValidationService.requiredValidation,
                   maxLines: 3,
                 ),
@@ -118,17 +147,29 @@ class CreateLectureDialogState extends State<CreateLectureDialog> {
                   controller: _youtubeLinkController,
                   decoration: InputDecoration(
                     hintText: 'YouTube Link',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
                     filled: true,
                     fillColor: colorScheme.surfaceContainerLowest,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 4.w,
+                      vertical: 2.h,
+                    ),
                     hintStyle: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                      color: colorScheme.onSurfaceVariant.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ),
-                  style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'YouTube link is required';
+                    if (value == null || value.isEmpty) {
+                      return 'YouTube link is required';
+                    }
                     final videoId = YoutubePlayer.convertUrlToId(value);
                     return videoId == null ? 'Invalid YouTube URL' : null;
                   },
@@ -142,7 +183,9 @@ class CreateLectureDialogState extends State<CreateLectureDialog> {
                       onPressed: () => Navigator.of(context).pop(),
                       style: TextButton.styleFrom(
                         foregroundColor: colorScheme.onSurfaceVariant,
-                        textStyle: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                        textStyle: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       child: const Text('Cancel'),
                     ),
@@ -152,8 +195,13 @@ class CreateLectureDialogState extends State<CreateLectureDialog> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colorScheme.primary,
                         foregroundColor: colorScheme.onPrimary,
-                        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                          vertical: 1.5.h,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: Text(
                         'Create',

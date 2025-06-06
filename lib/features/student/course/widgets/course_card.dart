@@ -26,7 +26,9 @@ class CourseCard extends StatelessWidget {
       children: [
         Card(
           elevation: 3,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: InkWell(
             onTap: () {
               context.push(AppRoutes.courseDetails, extra: course);
@@ -45,7 +47,12 @@ class CourseCard extends StatelessWidget {
                           width: 12.w,
                           height: 12.w,
                           color: colorScheme.primaryContainer,
-                          child: Icon(isEnrolled ? Icons.play_lesson_outlined : Icons.book_outlined, size: 6.w),
+                          child: Icon(
+                            isEnrolled
+                                ? Icons.play_lesson_outlined
+                                : Icons.book_outlined,
+                            size: 6.w,
+                          ),
                         ),
                       ),
                       SizedBox(width: 3.w),
@@ -65,7 +72,9 @@ class CourseCard extends StatelessWidget {
                             SizedBox(height: 0.5.h),
                             Text(
                               course.teacher.name,
-                              style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],
@@ -76,7 +85,10 @@ class CourseCard extends StatelessWidget {
                   SizedBox(height: 2.h),
                   Text(
                     course.description,
-                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant, height: 1.5),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                      height: 1.5,
+                    ),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -86,7 +98,11 @@ class CourseCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.calendar_today_outlined, size: 4.w, color: colorScheme.onSurfaceVariant),
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 4.w,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                           SizedBox(width: 2.w),
                           Text(
                             formattedDate,
@@ -99,7 +115,11 @@ class CourseCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Icon(Icons.people_outlined, size: 4.w, color: colorScheme.onSurfaceVariant),
+                          Icon(
+                            Icons.people_outlined,
+                            size: 4.w,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                           SizedBox(width: 2.w),
                           Text(
                             '$studentCount Students',
@@ -123,7 +143,11 @@ class CourseCard extends StatelessWidget {
             child: CircleAvatar(
               radius: 3.w,
               backgroundColor: colorScheme.primary,
-              child: Icon(Icons.how_to_reg, size: 4.w, color: colorScheme.onPrimary),
+              child: Icon(
+                Icons.how_to_reg,
+                size: 4.w,
+                color: colorScheme.onPrimary,
+              ),
             ),
           ),
       ],

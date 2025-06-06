@@ -4,7 +4,12 @@ class Lecture {
   final String description;
   final String youtubeLink;
 
-  Lecture({required this.id, required this.title, required this.description, required this.youtubeLink});
+  Lecture({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.youtubeLink,
+  });
 
   factory Lecture.fromJson(Map<String, dynamic> json) {
     return Lecture(
@@ -16,6 +21,11 @@ class Lecture {
   }
 
   Map<String, dynamic> toJson() {
-    return {'_id': id, 'title': title, 'description': description, 'youtubeLink': youtubeLink};
+    return {
+      '_id': id,
+      'title': title,
+      'description': description,
+      'youtubeLink': youtubeLink,
+    };
   }
 }

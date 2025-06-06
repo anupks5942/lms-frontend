@@ -21,7 +21,9 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<QuizProvider>().initializeAnswers(widget.quiz.questions.length);
+      context.read<QuizProvider>().initializeAnswers(
+        widget.quiz.questions.length,
+      );
     });
     super.initState();
   }
@@ -36,7 +38,10 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
     final selectedAnswers = quizProvider.selectedAnswers;
 
     return Scaffold(
-      appBar: AppBar(elevation: 0, title: Text(widget.quiz.title, overflow: TextOverflow.ellipsis)),
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(widget.quiz.title, overflow: TextOverflow.ellipsis),
+      ),
       bottomNavigationBar:
           user?.role == 'student'
               ? Padding(
@@ -49,15 +54,17 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                             ? null
                             : () async {
                               context.showDialog(message: 'Submitting...');
-                              final response = await context.read<QuizProvider>().submitQuiz(
-                                widget.quiz.id,
-                                selectedAnswers,
-                              );
+                              final response = await context
+                                  .read<QuizProvider>()
+                                  .submitQuiz(widget.quiz.id, selectedAnswers);
                               if (context.mounted) {
                                 context.hideDialog();
                                 response.match(
                                   (err) {
-                                    context.showCustomSnackBar(message: err, type: SnackBarType.error);
+                                    context.showCustomSnackBar(
+                                      message: err,
+                                      type: SnackBarType.error,
+                                    );
                                   },
                                   (score) {
                                     showDialog(
@@ -68,7 +75,11 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                                             onOkPressed: () {
                                               context.pop();
                                               context.pop();
-                                              context.read<QuizProvider>().getAllQuizzes(widget.quiz.course.id);
+                                              context
+                                                  .read<QuizProvider>()
+                                                  .getAllQuizzes(
+                                                    widget.quiz.course.id,
+                                                  );
                                             },
                                           ),
                                     );
@@ -80,9 +91,13 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                       backgroundColor: colorScheme.primary,
                       foregroundColor: colorScheme.onPrimary,
                       padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       elevation: 2,
-                      textStyle: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                      textStyle: textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     child: const Text('Submit Quiz'),
                   ),
@@ -97,7 +112,10 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
             children: [
               Text(
                 'Questions',
-                style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.onSurface,
+                ),
               ),
               SizedBox(height: 1.h),
               ListView.builder(
@@ -108,7 +126,9 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                   final question = widget.quiz.questions[index];
                   return Card(
                     elevation: 2,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     margin: EdgeInsets.symmetric(vertical: 1.h),
                     child: Padding(
                       padding: EdgeInsets.all(4.w),
@@ -128,13 +148,21 @@ class _AttemptQuizScreenState extends State<AttemptQuizScreen> {
                                 question.options.map((option) {
                                   return RadioListTile<String>(
                                     value: option,
-                                    groupValue: selectedAnswers.isNotEmpty ? selectedAnswers[index] : null,
+                                    groupValue:
+                                        selectedAnswers.isNotEmpty
+                                            ? selectedAnswers[index]
+                                            : null,
                                     onChanged: (value) {
-                                      context.read<QuizProvider>().updateAnswer(index, value);
+                                      context.read<QuizProvider>().updateAnswer(
+                                        index,
+                                        value,
+                                      );
                                     },
                                     title: Text(
                                       option,
-                                      style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                                      style: textTheme.bodyMedium?.copyWith(
+                                        color: colorScheme.onSurfaceVariant,
+                                      ),
                                     ),
                                     activeColor: colorScheme.primary,
                                     contentPadding: EdgeInsets.zero,

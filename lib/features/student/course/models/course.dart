@@ -8,7 +8,10 @@ class Teacher {
     if (json == null) {
       return Teacher(id: '');
     }
-    return Teacher(id: json['_id'] as String? ?? '', name: json['name'] as String? ?? '');
+    return Teacher(
+      id: json['_id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -58,7 +61,11 @@ class Course {
 
   factory Course.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
-      return Course(id: '', teacher: Teacher(id: ''), createdAt: DateTime.now());
+      return Course(
+        id: '',
+        teacher: Teacher(id: ''),
+        createdAt: DateTime.now(),
+      );
     }
 
     final teacherJson = json['teacher'] as Map<String, dynamic>? ?? {};
@@ -66,7 +73,10 @@ class Course {
 
     final studentsJson = json['students'] as List<dynamic>? ?? [];
     final students =
-        studentsJson.whereType<Map<String, dynamic>>().map((student) => Student.fromJson(student)).toList();
+        studentsJson
+            .whereType<Map<String, dynamic>>()
+            .map((student) => Student.fromJson(student))
+            .toList();
 
     return Course(
       id: json['_id'] as String? ?? '',

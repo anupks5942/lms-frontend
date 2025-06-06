@@ -32,7 +32,9 @@ class CustomLoadingDialog {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    theme.colorScheme.primary,
+                  ),
                 ),
                 if (message != null && message.trim().isNotEmpty) ...[
                   SizedBox(width: 4.w),
@@ -59,7 +61,12 @@ class CustomLoadingDialog {
 }
 
 extension CustomLoadingDialogExtension on BuildContext {
-  void showDialog({String? message, Color? backgroundColor, TextStyle? textStyle, Color? barrierColor}) {
+  void showDialog({
+    String? message,
+    Color? backgroundColor,
+    TextStyle? textStyle,
+    Color? barrierColor,
+  }) {
     CustomLoadingDialog.show(
       this,
       message: message,

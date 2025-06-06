@@ -36,7 +36,11 @@ class CourseDetailsScreen extends StatelessWidget {
     Logger.info("isStudent: $isStudent");
 
     return Scaffold(
-      appBar: AppBar(elevation: 0, title: const Text('Course'), centerTitle: true),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text('Course'),
+        centerTitle: true,
+      ),
       bottomNavigationBar:
           isEnrolled == false && isStudent == true
               ? Padding(
@@ -46,17 +50,27 @@ class CourseDetailsScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () async {
                       context.showDialog(message: 'Enrolling');
-                      final response = await context.read<CourseProvider>().enrollIntoCourse(course.id);
+                      final response = await context
+                          .read<CourseProvider>()
+                          .enrollIntoCourse(course.id);
                       if (context.mounted) context.hideDialog();
                       response.match(
                         (e) {
-                          context.showCustomSnackBar(message: e, type: SnackBarType.error);
+                          context.showCustomSnackBar(
+                            message: e,
+                            type: SnackBarType.error,
+                          );
                         },
                         (_) {
-                          context.showCustomSnackBar(message: 'Enrolled Successfully', type: SnackBarType.success);
+                          context.showCustomSnackBar(
+                            message: 'Enrolled Successfully',
+                            type: SnackBarType.success,
+                          );
                           context.pop();
                           context.read<HomeProvider>().setIndex(1);
-                          context.read<CourseProvider>().getEnrolledCourses(context);
+                          context.read<CourseProvider>().getEnrolledCourses(
+                            context,
+                          );
                         },
                       );
                     },
@@ -64,9 +78,13 @@ class CourseDetailsScreen extends StatelessWidget {
                       backgroundColor: colorScheme.primary,
                       foregroundColor: colorScheme.onPrimary,
                       padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       elevation: 2,
-                      textStyle: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                      textStyle: textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     child: const Text('Enroll Now'),
                   ),
@@ -82,23 +100,41 @@ class CourseDetailsScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 20.h,
-                decoration: BoxDecoration(color: colorScheme.primaryContainer, borderRadius: BorderRadius.circular(12)),
-                child: Center(child: Icon(Icons.book_outlined, size: 10.w, color: colorScheme.onPrimaryContainer)),
+                decoration: BoxDecoration(
+                  color: colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.book_outlined,
+                    size: 10.w,
+                    color: colorScheme.onPrimaryContainer,
+                  ),
+                ),
               ),
               SizedBox(height: 2.h),
               Text(
                 course.title,
-                style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700, color: colorScheme.onSurface),
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: colorScheme.onSurface,
+                ),
               ),
               SizedBox(height: 1.h),
               Row(
                 children: [
-                  Icon(Icons.person_outline, size: 5.w, color: colorScheme.onSurfaceVariant),
+                  Icon(
+                    Icons.person_outline,
+                    size: 5.w,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                   SizedBox(width: 2.w),
                   Expanded(
                     child: Text(
                       course.teacher.name,
-                      style: textTheme.titleMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ],
@@ -106,12 +142,18 @@ class CourseDetailsScreen extends StatelessWidget {
               SizedBox(height: 2.h),
               Text(
                 'Description',
-                style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.onSurface,
+                ),
               ),
               SizedBox(height: 1.h),
               Text(
                 course.description,
-                style: textTheme.bodyLarge?.copyWith(color: colorScheme.onSurfaceVariant, height: 1.5),
+                style: textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  height: 1.5,
+                ),
               ),
               SizedBox(height: 2.h),
               Row(
@@ -122,13 +164,22 @@ class CourseDetailsScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 5.w,
                         backgroundColor: colorScheme.secondaryContainer,
-                        child: Icon(Icons.calendar_today_outlined, size: 5.w, color: colorScheme.onSecondaryContainer),
+                        child: Icon(
+                          Icons.calendar_today_outlined,
+                          size: 5.w,
+                          color: colorScheme.onSecondaryContainer,
+                        ),
                       ),
                       SizedBox(width: 2.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Created', style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant)),
+                          Text(
+                            'Created',
+                            style: textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
                           Text(
                             formattedDate,
                             style: textTheme.bodyMedium?.copyWith(
@@ -150,7 +201,11 @@ class CourseDetailsScreen extends StatelessWidget {
                           CircleAvatar(
                             radius: 5.w,
                             backgroundColor: colorScheme.tertiaryContainer,
-                            child: Icon(Icons.people_outlined, size: 5.w, color: colorScheme.onTertiaryContainer),
+                            child: Icon(
+                              Icons.people_outlined,
+                              size: 5.w,
+                              color: colorScheme.onTertiaryContainer,
+                            ),
                           ),
                           SizedBox(width: 2.w),
                           Column(
@@ -158,7 +213,9 @@ class CourseDetailsScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'Students',
-                                style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant),
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
                               ),
                               Text(
                                 '$studentCount',

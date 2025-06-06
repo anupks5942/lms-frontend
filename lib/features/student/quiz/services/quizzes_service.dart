@@ -10,13 +10,18 @@ class QuizService {
 
   Future<Either<String, List<Quiz>>> getAllQuizzes(String courseId) async {
     try {
-      final response = await _dio.get('${ApiRoutes.quizzes}${ApiRoutes.quizzesOfCourse}$courseId');
+      final response = await _dio.get(
+        '${ApiRoutes.quizzes}${ApiRoutes.quizzesOfCourse}$courseId',
+      );
 
       Logger.debug("Response: $response");
 
       if (response.statusCode == 200) {
         final quizData = response.data['quizzes'] as List<dynamic>;
-        final quizzes = quizData.map((item) => Quiz.fromJson(item as Map<String, dynamic>)).toList();
+        final quizzes =
+            quizData
+                .map((item) => Quiz.fromJson(item as Map<String, dynamic>))
+                .toList();
         return Right(quizzes);
       } else {
         return Left(response.statusMessage ?? 'Failed fetching quizzes');
@@ -30,7 +35,10 @@ class QuizService {
     }
   }
 
-  Future<Either<String, String>> submitQuiz(String quizId, List<String?> payload) async {
+  Future<Either<String, String>> submitQuiz(
+    String quizId,
+    List<String?> payload,
+  ) async {
     try {
       final response = await _dio.post(
         '${ApiRoutes.quizzes}$quizId${ApiRoutes.submitQuiz}',
@@ -42,7 +50,11 @@ class QuizService {
       if (response.statusCode == 201) {
         return Right(response.data['score'].toString());
       } else {
-        return Left(response.data['message'] ?? response.statusMessage ?? 'Failed to submit quiz');
+        return Left(
+          response.data['message'] ??
+              response.statusMessage ??
+              'Failed to submit quiz',
+        );
       }
     } on DioException catch (e, s) {
       Logger.debug("DioException while submitting quiz: $e\n\n$s");
@@ -53,16 +65,26 @@ class QuizService {
     }
   }
 
-  Future<Either<String, Unit>> createQuiz(String courseId, Map<String, dynamic> quizData) async {
+  Future<Either<String, Unit>> createQuiz(
+    String courseId,
+    Map<String, dynamic> quizData,
+  ) async {
     try {
-      final response = await _dio.post('${ApiRoutes.quizzes}$courseId', data: quizData);
+      final response = await _dio.post(
+        '${ApiRoutes.quizzes}$courseId',
+        data: quizData,
+      );
 
       Logger.debug("Response: $response");
 
       if (response.statusCode == 201) {
         return const Right(unit);
       } else {
-        return Left(response.data['message'] ?? response.statusMessage ?? 'Failed to create quiz');
+        return Left(
+          response.data['message'] ??
+              response.statusMessage ??
+              'Failed to create quiz',
+        );
       }
     } on DioException catch (e, s) {
       Logger.debug("DioException while creating quiz: $e\n\n$s");

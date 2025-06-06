@@ -34,7 +34,11 @@ class EnrolledStudentsScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.info_outline, size: 10.w, color: colorScheme.onSurfaceVariant),
+                        Icon(
+                          Icons.info_outline,
+                          size: 10.w,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                         SizedBox(height: 2.h),
                         Text(
                           'No students enrolled',

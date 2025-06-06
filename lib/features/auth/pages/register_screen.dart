@@ -94,7 +94,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     children: [
       Text('Create Account', style: Theme.of(context).textTheme.titleLarge),
       SizedBox(height: 1.h),
-      Text('Join us to start your learning journey', style: Theme.of(context).textTheme.titleSmall),
+      Text(
+        'Join us to start your learning journey',
+        style: Theme.of(context).textTheme.titleSmall,
+      ),
     ],
   );
 
@@ -128,7 +131,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintText: 'Enter your password',
           prefixIcon: Icons.lock_open,
           isPassword: true,
-          validator: (value) => ValidationService.passwordValidation(value, isLogin: false),
+          validator:
+              (value) =>
+                  ValidationService.passwordValidation(value, isLogin: false),
           onFieldSubmitted: (value) => _register(),
         ),
         SizedBox(height: 2.h),
@@ -139,7 +144,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintText: 'Enter your password again',
           prefixIcon: Icons.lock,
           isPassword: true,
-          validator: (value) => ValidationService.confirmPasswordValidation(value, _passwordController.text.trim()),
+          validator:
+              (value) => ValidationService.confirmPasswordValidation(
+                value,
+                _passwordController.text.trim(),
+              ),
           onFieldSubmitted: (value) => _register(),
         ),
       ],
@@ -159,9 +168,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: theme.colorScheme.onPrimary,
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 elevation: 2,
-                textStyle: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                textStyle: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               child: const Text('Sign up'),
             ),
@@ -173,7 +186,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       const Text("Already have an account?"),
-      TextButton(onPressed: () => authProvider.toggleLoginView(), child: const Text('Log in')),
+      TextButton(
+        onPressed: () => authProvider.toggleLoginView(),
+        child: const Text('Log in'),
+      ),
     ],
   );
 }

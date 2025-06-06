@@ -50,7 +50,12 @@ void showCustomAlertDialog({
                             : null,
                     child: Text(
                       "$buttonText${secondsRemaining > 0 ? " ($secondsRemaining sec)" : ''}",
-                      style: TextStyle(color: isButtonEnabled ? Theme.of(context).primaryColor : Colors.grey),
+                      style: TextStyle(
+                        color:
+                            isButtonEnabled
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey,
+                      ),
                     ),
                   ),
                 ],
@@ -59,5 +64,5 @@ void showCustomAlertDialog({
             );
           },
         ),
-  ).then((_) => timer?.cancel()); 
+  ).then((_) => timer?.cancel());
 }

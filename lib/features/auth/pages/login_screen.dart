@@ -42,7 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         (_) {
           final name = authProvider.authModel?.user.name ?? '';
-          context.showCustomSnackBar(message: 'Welcome back, $name', type: SnackBarType.success);
+          context.showCustomSnackBar(
+            message: 'Welcome back, $name',
+            type: SnackBarType.success,
+          );
           context.go(AppRoutes.home);
         },
       );
@@ -83,7 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
     children: [
       Text('Welcome Back!', style: Theme.of(context).textTheme.titleLarge),
       SizedBox(height: 1.h),
-      Text('Sign in to continue your learning journey', style: Theme.of(context).textTheme.titleSmall),
+      Text(
+        'Sign in to continue your learning journey',
+        style: Theme.of(context).textTheme.titleSmall,
+      ),
     ],
   );
 
@@ -128,9 +134,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: theme.colorScheme.onPrimary,
                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 elevation: 2,
-                textStyle: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                textStyle: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               child: const Text('Login'),
             ),
@@ -142,7 +152,10 @@ class _LoginScreenState extends State<LoginScreen> {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       const Text("Don't have an account?"),
-      TextButton(onPressed: () => authProvider.toggleLoginView(), child: const Text('Sign up')),
+      TextButton(
+        onPressed: () => authProvider.toggleLoginView(),
+        child: const Text('Sign up'),
+      ),
     ],
   );
 }

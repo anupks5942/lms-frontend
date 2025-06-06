@@ -12,7 +12,8 @@ class MyCoursesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => context.read<CourseProvider>().getEnrolledCourses(context),
+        onRefresh:
+            () => context.read<CourseProvider>().getEnrolledCourses(context),
         child: Consumer<CourseProvider>(
           builder: (context, courseProvider, child) {
             return Column(
@@ -38,7 +39,10 @@ class MyCoursesScreen extends StatelessWidget {
 
   Widget _buildCourses(BuildContext context, CourseProvider courseProvider) {
     if (courseProvider.isMyLoading) {
-      return SizedBox(height: 80.h, child: const Center(child: CircularProgressIndicator()));
+      return SizedBox(
+        height: 80.h,
+        child: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (courseProvider.errorMessage.isNotEmpty) {
@@ -54,7 +58,10 @@ class MyCoursesScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 2.h),
-              ElevatedButton(onPressed: () => courseProvider.getEnrolledCourses(context), child: const Text('Retry')),
+              ElevatedButton(
+                onPressed: () => courseProvider.getEnrolledCourses(context),
+                child: const Text('Retry'),
+              ),
             ],
           ),
         ),
@@ -70,11 +77,16 @@ class MyCoursesScreen extends StatelessWidget {
             children: [
               Icon(Icons.info_outline, size: 10.w, color: Colors.grey),
               SizedBox(height: 2.h),
-              Text('No courses found', style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                'No courses found',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               SizedBox(height: 1.h),
               Text(
                 'Go to all courses to enroll in a course',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.grey),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(color: Colors.grey),
               ),
             ],
           ),

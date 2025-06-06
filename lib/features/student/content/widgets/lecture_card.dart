@@ -22,7 +22,10 @@ class LectureCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () {
-          context.push(AppRoutes.video, extra: {'youtubeLink': lecture.youtubeLink, 'title': lecture.title});
+          context.push(
+            AppRoutes.video,
+            extra: {'youtubeLink': lecture.youtubeLink, 'title': lecture.title},
+          );
         },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
@@ -34,27 +37,43 @@ class LectureCard extends StatelessWidget {
                 children: [
                   Text(
                     "Lecture ${index + 1}: ",
-                    style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                    style: textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                     maxLines: 2,
                   ),
-                  Text(lecture.title, maxLines: 2, style: textTheme.titleMedium, overflow: TextOverflow.ellipsis),
+                  Text(
+                    lecture.title,
+                    maxLines: 2,
+                    style: textTheme.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
               SizedBox(height: 1.h),
               Text(
                 lecture.description,
-                style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 1.h),
               Row(
                 children: [
-                  Icon(Icons.play_circle_outline, size: 4.w, color: colorScheme.primary),
+                  Icon(
+                    Icons.play_circle_outline,
+                    size: 4.w,
+                    color: colorScheme.primary,
+                  ),
                   SizedBox(width: 2.w),
                   Text(
                     'Watch Lecture',
-                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.primary, fontWeight: FontWeight.w600),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),

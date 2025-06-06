@@ -10,13 +10,18 @@ class LectureService {
 
   Future<Either<String, List<Lecture>>> getLectures(String courseId) async {
     try {
-      final response = await _dio.get('${ApiRoutes.courses}/$courseId${ApiRoutes.lectures}');
+      final response = await _dio.get(
+        '${ApiRoutes.courses}/$courseId${ApiRoutes.lectures}',
+      );
 
       Logger.debug("Response: $response");
 
       if (response.statusCode == 200) {
         final lectureData = response.data['lectures'] as List<dynamic>;
-        final lectures = lectureData.map((item) => Lecture.fromJson(item as Map<String, dynamic>)).toList();
+        final lectures =
+            lectureData
+                .map((item) => Lecture.fromJson(item as Map<String, dynamic>))
+                .toList();
         return Right(lectures);
       } else {
         return Left(response.statusMessage ?? 'Failed fetching lectures');
@@ -30,9 +35,15 @@ class LectureService {
     }
   }
 
-  Future<Either<String, Unit>> createLecture(String courseId, Map<String, dynamic> lectureData) async {
+  Future<Either<String, Unit>> createLecture(
+    String courseId,
+    Map<String, dynamic> lectureData,
+  ) async {
     try {
-      final response = await _dio.post('${ApiRoutes.courses}/$courseId/lectures', data: lectureData);
+      final response = await _dio.post(
+        '${ApiRoutes.courses}/$courseId/lectures',
+        data: lectureData,
+      );
 
       Logger.debug("Response: $response");
 

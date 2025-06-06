@@ -25,7 +25,12 @@ class CustomSnackBar {
     final snackBar = SnackBar(
       content: Semantics(
         label: '${type.name} notification: $message',
-        child: Text(message, style: textStyle ?? theme.textTheme.bodyMedium?.copyWith(color: defaultTextColor)),
+        child: Text(
+          message,
+          style:
+              textStyle ??
+              theme.textTheme.bodyMedium?.copyWith(color: defaultTextColor),
+        ),
       ),
       backgroundColor: backgroundColor ?? defaultBackgroundColor,
       duration: duration,
@@ -56,7 +61,7 @@ class CustomSnackBar {
       case SnackBarType.warning:
         return theme.colorScheme.tertiaryContainer;
       case SnackBarType.info:
-      return theme.colorScheme.surfaceContainerHigh;
+        return theme.colorScheme.surfaceContainerHigh;
     }
   }
 
@@ -69,7 +74,7 @@ class CustomSnackBar {
       case SnackBarType.warning:
         return theme.colorScheme.onTertiaryContainer;
       case SnackBarType.info:
-      return theme.colorScheme.onSurfaceVariant;
+        return theme.colorScheme.onSurfaceVariant;
     }
   }
 }

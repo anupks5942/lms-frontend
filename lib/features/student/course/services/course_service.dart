@@ -8,7 +8,10 @@ import '../models/course.dart';
 class CourseService {
   final Dio _dio = DioService.dio;
 
-  Future<Either<String, List<Course>>> fetchCourses({String? category, String? searchQuery}) async {
+  Future<Either<String, List<Course>>> fetchCourses({
+    String? category,
+    String? searchQuery,
+  }) async {
     try {
       const url = '${ApiRoutes.courses}/filter';
       final queryParams = <String, dynamic>{};
@@ -20,11 +23,14 @@ class CourseService {
       }
       Logger.debug("Fetching courses: URL=$url, Query=$queryParams");
       final response = await _dio.get(url, queryParameters: queryParams);
-      Logger.debug("Response status: ${response.statusCode}, Data: ${response.data}");
+      Logger.debug(
+        "Response status: ${response.statusCode}, Data: ${response.data}",
+      );
       if (response.statusCode == 200) {
         final courseData = response.data['courses'] as List<dynamic>;
         Logger.debug("Courses found: ${courseData.length}");
-        final courses = courseData.map((item) => Course.fromJson(item)).toList();
+        final courses =
+            courseData.map((item) => Course.fromJson(item)).toList();
         return Right(courses);
       } else {
         return Left(response.data['message'] ?? 'Failed fetching courses');
@@ -40,11 +46,14 @@ class CourseService {
 
   Future<Either<String, List<Course>>> getEnrolledCourses(String id) async {
     try {
-      final response = await _dio.get('${ApiRoutes.courses}${ApiRoutes.enrolledCourses}$id');
+      final response = await _dio.get(
+        '${ApiRoutes.courses}${ApiRoutes.enrolledCourses}$id',
+      );
 
       if (response.statusCode == 200) {
         final courseData = response.data['courses'] as List<dynamic>;
-        final courses = courseData.map((item) => Course.fromJson(item)).toList();
+        final courses =
+            courseData.map((item) => Course.fromJson(item)).toList();
         return Right(courses);
       } else {
         return Left(response.statusMessage ?? 'Failed fetching courses');
@@ -60,11 +69,14 @@ class CourseService {
 
   Future<Either<String, List<Course>>> getCreatedCourses(String id) async {
     try {
-      final response = await _dio.get('${ApiRoutes.courses}${ApiRoutes.createdCourses}$id');
+      final response = await _dio.get(
+        '${ApiRoutes.courses}${ApiRoutes.createdCourses}$id',
+      );
 
       if (response.statusCode == 200) {
         final courseData = response.data['courses'] as List<dynamic>;
-        final courses = courseData.map((item) => Course.fromJson(item)).toList();
+        final courses =
+            courseData.map((item) => Course.fromJson(item)).toList();
 
         return Right(courses);
       } else {
@@ -81,7 +93,9 @@ class CourseService {
 
   Future<Either<String, String>> enrollIntoCourse(String courseId) async {
     try {
-      final response = await _dio.put('${ApiRoutes.courses}/$courseId/${ApiRoutes.enroll}');
+      final response = await _dio.put(
+        '${ApiRoutes.courses}/$courseId/${ApiRoutes.enroll}',
+      );
 
       if (response.statusCode == 200) {
         return Right(response.data['message']);
@@ -97,7 +111,9 @@ class CourseService {
     }
   }
 
-  Future<Either<String, String>> createCourse(Map<String, dynamic> courseData) async {
+  Future<Either<String, String>> createCourse(
+    Map<String, dynamic> courseData,
+  ) async {
     try {
       final response = await _dio.post(ApiRoutes.courses, data: courseData);
 

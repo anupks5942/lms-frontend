@@ -42,10 +42,14 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                 Expanded(
                   child: Text(
                     'All Courses',
-                    style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                    style: textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onSurface,
+                    ),
                   ),
                 ),
-                if (courseProvider.searchQuery.isNotEmpty || courseProvider.selectedCategory != 'All') ...[
+                if (courseProvider.searchQuery.isNotEmpty ||
+                    courseProvider.selectedCategory != 'All') ...[
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
@@ -55,7 +59,10 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                     },
                     child: Text(
                       'Reset Filters',
-                      style: textTheme.titleSmall?.copyWith(color: colorScheme.error, fontWeight: FontWeight.w600),
+                      style: textTheme.titleSmall?.copyWith(
+                        color: colorScheme.error,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -71,11 +78,17 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                       controller: _searchController,
                       decoration: InputDecoration(
                         hintText: 'Search courses...',
-                        prefixIcon: Icon(Icons.search, color: colorScheme.onSurfaceVariant),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                         suffixIcon:
                             courseProvider.searchQuery.isNotEmpty
                                 ? IconButton(
-                                  icon: Icon(Icons.clear, color: colorScheme.onSurfaceVariant),
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
                                   onPressed: () {
                                     _searchController.clear();
                                     courseProvider.clearSearch();
@@ -89,10 +102,14 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                         filled: true,
                         fillColor: colorScheme.surfaceContainer,
                         hintStyle: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                          color: colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                       ),
-                      style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
                       onChanged: courseProvider.setSearchQuery,
                       maxLines: 1,
                       textAlignVertical: TextAlignVertical.center,
@@ -105,16 +122,24 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                   onSelected: (value) => courseProvider.setCategory(value),
                   constraints: BoxConstraints(minWidth: 48.w),
                   itemBuilder: (context) {
-                    return ['All', ...courseProvider.categories].map((category) {
+                    return ['All', ...courseProvider.categories].map((
+                      category,
+                    ) {
                       return PopupMenuItem<String>(
                         value: category,
                         child: Row(
                           children: [
-                            if (courseProvider.selectedCategory == category) ...[
+                            if (courseProvider.selectedCategory ==
+                                category) ...[
                               const Icon(Icons.check, size: 18),
                               const SizedBox(width: 6),
                             ],
-                            Text(category, style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface)),
+                            Text(
+                              category,
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
                           ],
                         ),
                       );
@@ -132,7 +157,10 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                     decoration: BoxDecoration(
                       color: colorScheme.surfaceContainer,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: colorScheme.outlineVariant, width: 1),
+                      border: Border.all(
+                        color: colorScheme.outlineVariant,
+                        width: 1,
+                      ),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,10 +169,16 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                           child: Text(
                             courseProvider.selectedCategory ?? '',
                             overflow: TextOverflow.ellipsis,
-                            style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurface,
+                            ),
                           ),
                         ),
-                        Icon(Icons.filter_list, color: colorScheme.onSurfaceVariant, size: 5.w),
+                        Icon(
+                          Icons.filter_list,
+                          color: colorScheme.onSurfaceVariant,
+                          size: 5.w,
+                        ),
                       ],
                     ),
                   ),
@@ -177,7 +211,12 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
     final colorScheme = theme.colorScheme;
 
     if (courseProvider.isAllLoading) {
-      return SizedBox(height: 80.h, child: Center(child: CircularProgressIndicator(color: colorScheme.primary)));
+      return SizedBox(
+        height: 80.h,
+        child: Center(
+          child: CircularProgressIndicator(color: colorScheme.primary),
+        ),
+      );
     }
 
     if (courseProvider.errorMessage.isNotEmpty) {
@@ -191,7 +230,10 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
               SizedBox(height: 2.h),
               Text(
                 courseProvider.errorMessage,
-                style: textTheme.bodyLarge?.copyWith(color: colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),
+                style: textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w500,
+                ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 2.h),
@@ -200,13 +242,21 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primary,
                   foregroundColor: colorScheme.onPrimary,
-                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 4.w,
+                    vertical: 1.5.h,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   elevation: 2,
                 ),
                 child: Text(
                   'Retry',
-                  style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onPrimary),
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onPrimary,
+                  ),
                 ),
               ),
             ],
@@ -222,16 +272,26 @@ class AllCoursesScreenState extends State<AllCoursesScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.info_outline, size: 10.w, color: colorScheme.onSurfaceVariant),
+              Icon(
+                Icons.info_outline,
+                size: 10.w,
+                color: colorScheme.onSurfaceVariant,
+              ),
               SizedBox(height: 2.h),
               Text(
                 'No courses found',
-                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.onSurface,
+                ),
               ),
               SizedBox(height: 1.h),
               Text(
                 'Try a different search or filter',
-                style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant, fontWeight: FontWeight.w400),
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ],
           ),

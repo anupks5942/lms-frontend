@@ -36,8 +36,14 @@ final GoRouter appRouter = GoRouter(
     }
   },
   routes: [
-    GoRoute(path: AppRoutes.login, builder: (context, state) => const LoginOrRegisterScreen()),
-    GoRoute(path: AppRoutes.home, builder: (context, state) => const HomeScreen()),
+    GoRoute(
+      path: AppRoutes.login,
+      builder: (context, state) => const LoginOrRegisterScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (context, state) => const HomeScreen(),
+    ),
     GoRoute(
       path: AppRoutes.courseDetails,
       builder: (context, state) {
@@ -92,7 +98,10 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.video,
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
-        return VideoPlayerScreen(youtubeLink: extra['youtubeLink'] as String, title: extra['title'] as String);
+        return VideoPlayerScreen(
+          youtubeLink: extra['youtubeLink'] as String,
+          title: extra['title'] as String,
+        );
       },
     ),
     GoRoute(

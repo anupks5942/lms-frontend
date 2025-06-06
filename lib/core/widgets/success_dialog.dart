@@ -5,11 +5,7 @@ class SuccessDialog extends StatelessWidget {
   final String message;
   final VoidCallback? onOkPressed;
 
-  const SuccessDialog({
-    super.key,
-    required this.message,
-    this.onOkPressed,
-  });
+  const SuccessDialog({super.key, required this.message, this.onOkPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +45,9 @@ class SuccessDialog extends StatelessWidget {
           onPressed: onOkPressed,
           style: TextButton.styleFrom(
             foregroundColor: colorScheme.primary,
-            textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+            textStyle: textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           child: const Text('OK'),
         ),

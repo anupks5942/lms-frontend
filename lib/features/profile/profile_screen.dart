@@ -36,7 +36,12 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 0.5.h),
-            Text(user?.email ?? '', style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant)),
+            Text(
+              user?.email ?? '',
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
             SizedBox(height: 0.5.h),
             Text(user?.role.toUpperCase() ?? '', style: textTheme.bodyMedium),
             SizedBox(height: 2.h),
@@ -45,9 +50,20 @@ class ProfileScreen extends StatelessWidget {
               leading: Icon(Icons.color_lens, color: colorScheme.onSurface),
               title: const Text('Theme'),
               subtitle: Text(
-                StringExtension(context.watch<ThemeProvider>().themeOption.toString().split('.').last).capitalize(),
+                StringExtension(
+                  context
+                      .watch<ThemeProvider>()
+                      .themeOption
+                      .toString()
+                      .split('.')
+                      .last,
+                ).capitalize(),
               ),
-              onTap: () => showDialog(context: context, builder: (context) => const ThemeSelectionDialog()),
+              onTap:
+                  () => showDialog(
+                    context: context,
+                    builder: (context) => const ThemeSelectionDialog(),
+                  ),
             ),
             const Divider(),
             const LogoutButton(),

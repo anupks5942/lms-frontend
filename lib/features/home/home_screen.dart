@@ -19,8 +19,13 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  List<IconData> get _icons => [Icons.auto_stories, Icons.bookmark, Icons.person];
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  List<IconData> get _icons => [
+    Icons.auto_stories,
+    Icons.bookmark,
+    Icons.person,
+  ];
   late CourseProvider courseR;
   late HomeProvider homeR;
   late TabController _tabController;
@@ -32,10 +37,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     homeR = context.read<HomeProvider>();
     user = context.read<AuthProvider>().getUser();
 
-    _tabController = TabController(length: 3, vsync: this, initialIndex: homeR.selectedIndex);
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: homeR.selectedIndex,
+    );
 
     _tabController.addListener(() {
-      if (!_tabController.indexIsChanging && homeR.selectedIndex != _tabController.index) {
+      if (!_tabController.indexIsChanging &&
+          homeR.selectedIndex != _tabController.index) {
         homeR.setIndex(_tabController.index);
         _handleTabChange(_tabController.index);
       }
@@ -87,7 +97,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               physics: const BouncingScrollPhysics(),
               children: [
                 const AllCoursesScreen(),
-                user?.role == 'student' ? const MyCoursesScreen() : const CreatedCoursesScreen(),
+                user?.role == 'student'
+                    ? const MyCoursesScreen()
+                    : const CreatedCoursesScreen(),
                 const ProfileScreen(),
               ],
             ),
@@ -104,7 +116,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               },
               destinations: [
                 NavigationDestination(icon: Icon(_icons[0]), label: 'Explore'),
-                NavigationDestination(icon: Icon(_icons[1]), label: 'My Courses'),
+                NavigationDestination(
+                  icon: Icon(_icons[1]),
+                  label: 'My Courses',
+                ),
                 NavigationDestination(icon: Icon(_icons[2]), label: 'Profile'),
               ],
             );
@@ -122,7 +137,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           title: const Text('Exit'),
           content: const Text('Are you sure you want to exit the app?'),
           actions: [
-            TextButton(onPressed: dialogContext.pop, child: const Text('Cancel')),
+            TextButton(
+              onPressed: dialogContext.pop,
+              child: const Text('Cancel'),
+            ),
             TextButton(
               onPressed: () {
                 dialogContext.pop();

@@ -79,7 +79,9 @@ class QuizProvider with ChangeNotifier {
 
   void addOption(int questionIndex) {
     if (questionIndex >= 0 && questionIndex < _quizQuestions.length) {
-      _quizQuestions[questionIndex].optionControllers.add(TextEditingController());
+      _quizQuestions[questionIndex].optionControllers.add(
+        TextEditingController(),
+      );
       notifyListeners();
     }
   }
@@ -88,7 +90,8 @@ class QuizProvider with ChangeNotifier {
     if (questionIndex >= 0 && questionIndex < _quizQuestions.length) {
       final question = _quizQuestions[questionIndex];
       if (optionIndex >= 0 && optionIndex < question.optionControllers.length) {
-        if (question.optionControllers[optionIndex].text.trim() == question.correctAnswer) {
+        if (question.optionControllers[optionIndex].text.trim() ==
+            question.correctAnswer) {
           question.correctAnswer = null;
         }
         question.optionControllers[optionIndex].dispose();
@@ -103,7 +106,9 @@ class QuizProvider with ChangeNotifier {
       final question = _quizQuestions[questionIndex];
       if (optionIndex >= 0 && optionIndex < question.optionControllers.length) {
         question.optionControllers[optionIndex].text = text;
-        if (question.correctAnswer == question.optionControllers[optionIndex].text && text.isEmpty) {
+        if (question.correctAnswer ==
+                question.optionControllers[optionIndex].text &&
+            text.isEmpty) {
           question.correctAnswer = null;
         }
         notifyListeners();
@@ -122,8 +127,12 @@ class QuizProvider with ChangeNotifier {
     if (_quizQuestions.isEmpty) return false;
     for (var question in _quizQuestions) {
       if (question.optionControllers.length < 2) return false;
-      if (question.optionControllers.any((c) => c.text.trim().isEmpty)) return false;
-      if (question.correctAnswer == null || question.correctAnswer!.isEmpty) return false;
+      if (question.optionControllers.any((c) => c.text.trim().isEmpty)) {
+        return false;
+      }
+      if (question.correctAnswer == null || question.correctAnswer!.isEmpty) {
+        return false;
+      }
     }
     return true;
   }
@@ -144,7 +153,8 @@ class QuizProvider with ChangeNotifier {
   }
 
   void initializeAnswers(int questionCount) {
-    _selectedAnswers = questionCount > 0 ? List.filled(questionCount, null) : [];
+    _selectedAnswers =
+        questionCount > 0 ? List.filled(questionCount, null) : [];
     notifyListeners();
   }
 
@@ -160,13 +170,19 @@ class QuizProvider with ChangeNotifier {
 
     final response = await _quizService.getAllQuizzes(courseId);
 
-    response.match((err) => _errorMessage = err, (quizzes) => _quizzes = quizzes);
+    response.match(
+      (err) => _errorMessage = err,
+      (quizzes) => _quizzes = quizzes,
+    );
 
     _isLoading = false;
     notifyListeners();
   }
 
-  Future<Either<String, String>> submitQuiz(String quizId, List<String?> answers) async {
+  Future<Either<String, String>> submitQuiz(
+    String quizId,
+    List<String?> answers,
+  ) async {
     _errorMessage = '';
     notifyListeners();
 
@@ -177,7 +193,10 @@ class QuizProvider with ChangeNotifier {
     return response;
   }
 
-  Future<Either<String, Unit>> createQuiz(String courseId, Map<String, dynamic> quizData) async {
+  Future<Either<String, Unit>> createQuiz(
+    String courseId,
+    Map<String, dynamic> quizData,
+  ) async {
     _errorMessage = '';
     _isLoading = true;
     notifyListeners();

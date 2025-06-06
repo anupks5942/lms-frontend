@@ -22,15 +22,18 @@ class LectureProvider with ChangeNotifier {
     final response = await _lectureService.getLectures(courseId);
 
     response.match(
-          (err) => _errorMessage = err,
-          (lectures) => _lectures = lectures,
+      (err) => _errorMessage = err,
+      (lectures) => _lectures = lectures,
     );
 
     _isLoading = false;
     notifyListeners();
   }
 
-  Future<Either<String, Unit>> createLecture(String courseId, Map<String, dynamic> lectureData) async {
+  Future<Either<String, Unit>> createLecture(
+    String courseId,
+    Map<String, dynamic> lectureData,
+  ) async {
     _errorMessage = '';
     _isLoading = true;
     notifyListeners();

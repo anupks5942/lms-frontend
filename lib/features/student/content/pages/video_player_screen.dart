@@ -8,7 +8,11 @@ class VideoPlayerScreen extends StatefulWidget {
   final String youtubeLink;
   final String title;
 
-  const VideoPlayerScreen({super.key, required this.youtubeLink, required this.title});
+  const VideoPlayerScreen({
+    super.key,
+    required this.youtubeLink,
+    required this.title,
+  });
 
   @override
   VideoPlayerScreenState createState() => VideoPlayerScreenState();
@@ -22,7 +26,10 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+    );
     final videoId = YoutubePlayer.convertUrlToId(widget.youtubeLink);
     if (videoId == null) {
       setState(() {
@@ -32,7 +39,12 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
     }
     _controller = YoutubePlayerController(
       initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(autoPlay: true, mute: false, enableCaption: true, forceHD: false),
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        enableCaption: true,
+        forceHD: false,
+      ),
     )..addListener(() {
       if (_controller.value.isFullScreen != _isFullScreen) {
         setState(() {
@@ -45,7 +57,10 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void dispose() {
     _controller.dispose();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+    );
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
   }
@@ -58,7 +73,10 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
     return YoutubePlayerBuilder(
       onEnterFullScreen: () {
-        SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+        ]);
         SystemChrome.setEnabledSystemUIMode(
           SystemUiMode.manual,
           overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
@@ -75,7 +93,10 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: colorScheme.primary,
-        progressColors: ProgressBarColors(playedColor: colorScheme.primary, handleColor: colorScheme.primaryContainer),
+        progressColors: ProgressBarColors(
+          playedColor: colorScheme.primary,
+          handleColor: colorScheme.primaryContainer,
+        ),
         onReady: () {
           _controller.play();
         },
@@ -92,7 +113,10 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     : AppBar(
                       elevation: 0,
                       backgroundColor: colorScheme.surfaceContainer,
-                      title: Text(widget.title, overflow: TextOverflow.ellipsis),
+                      title: Text(
+                        widget.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
             body:
                 _isError
@@ -100,7 +124,11 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.error_outline, size: 10.w, color: colorScheme.error),
+                          Icon(
+                            Icons.error_outline,
+                            size: 10.w,
+                            color: colorScheme.error,
+                          ),
                           SizedBox(height: 2.h),
                           Text(
                             'Failed to load video',
@@ -110,7 +138,10 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             ),
                           ),
                           SizedBox(height: 2.h),
-                          ElevatedButton(onPressed: () => context.pop(), child: const Text('Go Back')),
+                          ElevatedButton(
+                            onPressed: () => context.pop(),
+                            child: const Text('Go Back'),
+                          ),
                         ],
                       ),
                     )

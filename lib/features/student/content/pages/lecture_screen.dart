@@ -32,13 +32,22 @@ class LectureScreenState extends State<LectureScreen> {
     final user = context.read<AuthProvider>().getUser();
 
     return Scaffold(
-      appBar: AppBar(elevation: 0, backgroundColor: colorScheme.surfaceContainer, title: const Text('Lectures')),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: colorScheme.surfaceContainer,
+        title: const Text('Lectures'),
+      ),
       floatingActionButton:
           user?.role == 'teacher'
               ? FloatingActionButton(
                 tooltip: 'Upload lecture',
                 onPressed: () {
-                  showDialog(context: context, builder: (context) => CreateLectureDialog(courseId: widget.courseId));
+                  showDialog(
+                    context: context,
+                    builder:
+                        (context) =>
+                            CreateLectureDialog(courseId: widget.courseId),
+                  );
                 },
                 child: const Icon(Icons.add),
               )
@@ -56,10 +65,15 @@ class LectureScreenState extends State<LectureScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (lectureProvider.isLoading && lectureProvider.lectures.isEmpty)
+                    if (lectureProvider.isLoading &&
+                        lectureProvider.lectures.isEmpty)
                       LinearProgressIndicator(
-                        backgroundColor: colorScheme.primary.withValues(alpha: 0.2),
-                        valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+                        backgroundColor: colorScheme.primary.withValues(
+                          alpha: 0.2,
+                        ),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          colorScheme.primary,
+                        ),
                       ),
                     if (lectureProvider.errorMessage.isNotEmpty)
                       SizedBox(
@@ -68,7 +82,11 @@ class LectureScreenState extends State<LectureScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.error_outline, size: 10.w, color: colorScheme.error),
+                              Icon(
+                                Icons.error_outline,
+                                size: 10.w,
+                                color: colorScheme.error,
+                              ),
                               SizedBox(height: 2.h),
                               Text(
                                 lectureProvider.errorMessage,
@@ -80,7 +98,10 @@ class LectureScreenState extends State<LectureScreen> {
                               ),
                               SizedBox(height: 2.h),
                               ElevatedButton(
-                                onPressed: () => lectureProvider.getLectures(widget.courseId),
+                                onPressed:
+                                    () => lectureProvider.getLectures(
+                                      widget.courseId,
+                                    ),
                                 child: Text(
                                   'Retry',
                                   style: textTheme.bodyMedium?.copyWith(
@@ -102,7 +123,11 @@ class LectureScreenState extends State<LectureScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.info_outline, size: 10.w, color: colorScheme.onSurfaceVariant),
+                              Icon(
+                                Icons.info_outline,
+                                size: 10.w,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
                               SizedBox(height: 2.h),
                               Text(
                                 'No lectures found',
@@ -121,7 +146,10 @@ class LectureScreenState extends State<LectureScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: lectureProvider.lectures.length,
                         itemBuilder: (context, index) {
-                          return LectureCard(index: index, lecture: lectureProvider.lectures[index]);
+                          return LectureCard(
+                            index: index,
+                            lecture: lectureProvider.lectures[index],
+                          );
                         },
                       ),
                   ],

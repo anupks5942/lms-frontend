@@ -15,9 +15,15 @@ class LogoutButton extends StatelessWidget {
     if (!context.mounted) return;
 
     if (authProvider.errorMessage.isNotEmpty) {
-      context.showCustomSnackBar(message: authProvider.errorMessage, type: SnackBarType.error);
+      context.showCustomSnackBar(
+        message: authProvider.errorMessage,
+        type: SnackBarType.error,
+      );
     } else if (authProvider.authModel == null) {
-      context.showCustomSnackBar(message: 'Logout successful', type: SnackBarType.success);
+      context.showCustomSnackBar(
+        message: 'Logout successful',
+        type: SnackBarType.success,
+      );
       context.go(AppRoutes.login);
     }
   }
@@ -30,7 +36,10 @@ class LogoutButton extends StatelessWidget {
           title: const Text('Confirm Logout'),
           content: const Text('Are you sure you want to log out?'),
           actions: [
-            TextButton(onPressed: dialogContext.pop, child: const Text('Cancel')),
+            TextButton(
+              onPressed: dialogContext.pop,
+              child: const Text('Cancel'),
+            ),
             TextButton(
               onPressed: () async {
                 dialogContext.pop();

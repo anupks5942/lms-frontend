@@ -20,7 +20,10 @@ class QuizCard extends StatelessWidget {
     final questionCount = quiz.questions.length;
     final formattedDate = DateFormat('MMM d, yyyy').format(quiz.createdAt);
     final user = context.read<AuthProvider>().getUser();
-    final isAttempted = context.read<QuizProvider>().hasUserAttemptedQuiz(quiz, user?.id ?? '');
+    final isAttempted = context.read<QuizProvider>().hasUserAttemptedQuiz(
+      quiz,
+      user?.id ?? '',
+    );
 
     return Card(
       elevation: 3,
@@ -50,7 +53,11 @@ class QuizCard extends StatelessWidget {
                           width: 12.w,
                           height: 12.w,
                           color: colorScheme.primaryContainer,
-                          child: Icon(Icons.quiz_outlined, size: 6.w, color: colorScheme.onPrimaryContainer),
+                          child: Icon(
+                            Icons.quiz_outlined,
+                            size: 6.w,
+                            color: colorScheme.onPrimaryContainer,
+                          ),
                         ),
                       ),
                       SizedBox(width: 3.w),
@@ -78,7 +85,11 @@ class QuizCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.question_answer_outlined, size: 4.w, color: colorScheme.onSurfaceVariant),
+                          Icon(
+                            Icons.question_answer_outlined,
+                            size: 4.w,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                           SizedBox(width: 2.w),
                           Text(
                             '$questionCount Questions',
@@ -91,7 +102,11 @@ class QuizCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Icon(Icons.calendar_today_outlined, size: 4.w, color: colorScheme.onSurfaceVariant),
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 4.w,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                           SizedBox(width: 2.w),
                           Text(
                             formattedDate,
@@ -114,10 +129,16 @@ class QuizCard extends StatelessWidget {
               right: 1.w,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
-                decoration: BoxDecoration(color: colorScheme.primary, borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(
+                  color: colorScheme.primary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Text(
                   'Attempted',
-                  style: textTheme.labelSmall?.copyWith(color: colorScheme.onPrimary, fontWeight: FontWeight.w600),
+                  style: textTheme.labelSmall?.copyWith(
+                    color: colorScheme.onPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

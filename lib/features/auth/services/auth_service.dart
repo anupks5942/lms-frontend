@@ -12,9 +12,15 @@ import '../models/user.dart';
 class AuthService {
   final Dio _dio = DioService.dio;
 
-  Future<Either<String, AuthModel>> login({required String email, required String password}) async {
+  Future<Either<String, AuthModel>> login({
+    required String email,
+    required String password,
+  }) async {
     try {
-      final response = await _dio.post(ApiRoutes.login, data: {'email': email, 'password': password});
+      final response = await _dio.post(
+        ApiRoutes.login,
+        data: {'email': email, 'password': password},
+      );
 
       if (response.statusCode == 200) {
         final authModel = AuthModel.fromJson(response.data);
@@ -22,11 +28,16 @@ class AuthService {
         final user = jsonEncode(response.data['user']);
 
         StorageManager.setStringValue(key: AppStorageKey.user, value: user);
-        StorageManager.setStringValue(key: AppStorageKey.token, value: authModel.token);
+        StorageManager.setStringValue(
+          key: AppStorageKey.token,
+          value: authModel.token,
+        );
 
         return Right(authModel);
       } else {
-        final message = DioService.getErrorMessageFromStatusCode(response.statusCode);
+        final message = DioService.getErrorMessageFromStatusCode(
+          response.statusCode,
+        );
         return Left(message);
       }
     } on DioException catch (e, s) {
@@ -44,12 +55,17 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final response = await _dio.post(ApiRoutes.register, data: {'name': name, 'email': email, 'password': password});
+      final response = await _dio.post(
+        ApiRoutes.register,
+        data: {'name': name, 'email': email, 'password': password},
+      );
 
       if (response.statusCode == 201) {
         return Right(response.data['message'] ?? 'Registration successful');
       } else {
-        final message = DioService.getErrorMessageFromStatusCode(response.statusCode);
+        final message = DioService.getErrorMessageFromStatusCode(
+          response.statusCode,
+        );
         return Left(message);
       }
     } on DioException catch (e, s) {

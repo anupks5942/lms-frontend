@@ -31,23 +31,27 @@ class ThemeSelectionDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: 2.h),
-            ...ThemeOption.values.map((option) => RadioListTile<ThemeOption>(
-              title: Text(
-                option.toString().split('.').last.capitalize(),
-                style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
-              ),
-              value: option,
-              groupValue: themeProvider.themeOption,
-              onChanged: (value) async {
-                if (value != null) {
-                  await context.read<ThemeProvider>().setTheme(value);
-                  if (context.mounted) {
-                    Navigator.of(context).pop();
+            ...ThemeOption.values.map(
+              (option) => RadioListTile<ThemeOption>(
+                title: Text(
+                  option.toString().split('.').last.capitalize(),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                value: option,
+                groupValue: themeProvider.themeOption,
+                onChanged: (value) async {
+                  if (value != null) {
+                    await context.read<ThemeProvider>().setTheme(value);
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
                   }
-                }
-              },
-              activeColor: colorScheme.primary,
-            )),
+                },
+                activeColor: colorScheme.primary,
+              ),
+            ),
             SizedBox(height: 2.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -56,7 +60,9 @@ class ThemeSelectionDialog extends StatelessWidget {
                   onPressed: () => Navigator.of(context).pop(),
                   style: TextButton.styleFrom(
                     foregroundColor: colorScheme.onSurfaceVariant,
-                    textStyle: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                    textStyle: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   child: const Text('Cancel'),
                 ),

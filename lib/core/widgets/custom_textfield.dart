@@ -46,7 +46,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
       suffixIcon:
           widget.isPassword
               ? IconButton(
-                icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                ),
                 onPressed: () {
                   setState(() => _isPasswordVisible = !_isPasswordVisible);
                 },

@@ -46,8 +46,10 @@ class StorageManager {
     return _sharedPref.getString(key);
   }
 
-  static Future<void> setHeight(
-      {required String key, required Map<String, dynamic> height}) async {
+  static Future<void> setHeight({
+    required String key,
+    required Map<String, dynamic> height,
+  }) async {
     var heightJson = jsonEncode(height);
     await _sharedPref.setString(key, heightJson);
   }

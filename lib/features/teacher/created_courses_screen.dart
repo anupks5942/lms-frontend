@@ -21,7 +21,8 @@ class CreatedCoursesScreen extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
-        onRefresh: () => context.read<CourseProvider>().getCreatedCourses(context),
+        onRefresh:
+            () => context.read<CourseProvider>().getCreatedCourses(context),
         child: Consumer<CourseProvider>(
           builder: (context, courseProvider, child) {
             return Column(
@@ -47,7 +48,10 @@ class CreatedCoursesScreen extends StatelessWidget {
 
   Widget _buildCourses(BuildContext context, CourseProvider courseProvider) {
     if (courseProvider.isCreatedLoading) {
-      return SizedBox(height: 80.h, child: const Center(child: CircularProgressIndicator()));
+      return SizedBox(
+        height: 80.h,
+        child: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (courseProvider.errorMessage.isNotEmpty) {
@@ -63,7 +67,10 @@ class CreatedCoursesScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 2.h),
-              ElevatedButton(onPressed: () => courseProvider.getCreatedCourses(context), child: const Text('Retry')),
+              ElevatedButton(
+                onPressed: () => courseProvider.getCreatedCourses(context),
+                child: const Text('Retry'),
+              ),
             ],
           ),
         ),
@@ -79,11 +86,16 @@ class CreatedCoursesScreen extends StatelessWidget {
             children: [
               Icon(Icons.info_outline, size: 10.w, color: Colors.grey),
               SizedBox(height: 2.h),
-              Text('No courses found', style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                'No courses found',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               SizedBox(height: 1.h),
               Text(
                 'Click on + button to create a course',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.grey),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(color: Colors.grey),
               ),
             ],
           ),
@@ -119,7 +131,9 @@ class CreatedCoursesScreen extends StatelessWidget {
         final courseProvider = context.watch<CourseProvider>();
 
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           backgroundColor: colorScheme.surfaceContainerHighest,
           child: Padding(
             padding: EdgeInsets.all(4.w),
@@ -132,7 +146,10 @@ class CreatedCoursesScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Create Course',
-                      style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                      style: textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: colorScheme.onSurface,
+                      ),
                     ),
                     SizedBox(height: 2.h),
                     TextFormField(
@@ -145,12 +162,19 @@ class CreatedCoursesScreen extends StatelessWidget {
                         ),
                         filled: true,
                         fillColor: colorScheme.surfaceContainerLowest,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                          vertical: 2.h,
+                        ),
                         hintStyle: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                          color: colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                       ),
-                      style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
                       validator: ValidationService.courseValidation,
                     ),
                     SizedBox(height: 2.h),
@@ -164,12 +188,19 @@ class CreatedCoursesScreen extends StatelessWidget {
                         ),
                         filled: true,
                         fillColor: colorScheme.surfaceContainerLowest,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                          vertical: 2.h,
+                        ),
                         hintStyle: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                          color: colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                       ),
-                      style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
                       validator: ValidationService.courseValidation,
                       maxLines: 3,
                     ),
@@ -179,14 +210,22 @@ class CreatedCoursesScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: colorScheme.surfaceContainerLowest,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: colorScheme.outlineVariant, width: 1),
+                        border: Border.all(
+                          color: colorScheme.outlineVariant,
+                          width: 1,
+                        ),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 2.w,
+                        vertical: 0.5.h,
+                      ),
                       child: DropdownButton<String>(
                         isExpanded: true,
                         value:
                             selectedCategory ??
-                            (courseProvider.categories.isNotEmpty ? courseProvider.categories.first : null),
+                            (courseProvider.categories.isNotEmpty
+                                ? courseProvider.categories.first
+                                : null),
                         items:
                             courseProvider.categories.isNotEmpty
                                 ? courseProvider.categories
@@ -195,7 +234,9 @@ class CreatedCoursesScreen extends StatelessWidget {
                                         value: category,
                                         child: Text(
                                           category,
-                                          style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+                                          style: textTheme.bodyMedium?.copyWith(
+                                            color: colorScheme.onSurface,
+                                          ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -206,7 +247,9 @@ class CreatedCoursesScreen extends StatelessWidget {
                                     value: null,
                                     child: Text(
                                       'No categories',
-                                      style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                                      style: textTheme.bodyMedium?.copyWith(
+                                        color: colorScheme.onSurfaceVariant,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -218,13 +261,19 @@ class CreatedCoursesScreen extends StatelessWidget {
                                 }
                                 : null,
                         underline: const SizedBox(),
-                        icon: Icon(Icons.arrow_drop_down, color: colorScheme.onSurfaceVariant, size: 5.w),
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: colorScheme.onSurfaceVariant,
+                          size: 5.w,
+                        ),
                         borderRadius: BorderRadius.circular(12),
                         dropdownColor: colorScheme.surfaceContainerLowest,
                         hint: Text(
                           'Select category',
                           style: textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                            color: colorScheme.onSurfaceVariant.withValues(
+                              alpha: 0.6,
+                            ),
                           ),
                         ),
                       ),
@@ -237,14 +286,17 @@ class CreatedCoursesScreen extends StatelessWidget {
                           onPressed: () => context.pop(),
                           style: TextButton.styleFrom(
                             foregroundColor: colorScheme.onSurfaceVariant,
-                            textStyle: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                            textStyle: textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           child: const Text('Cancel'),
                         ),
                         SizedBox(width: 2.w),
                         ElevatedButton(
                           onPressed: () async {
-                            if (!formKey.currentState!.validate() || selectedCategory == null) {
+                            if (!formKey.currentState!.validate() ||
+                                selectedCategory == null) {
                               context.showCustomSnackBar(
                                 message: 'Please fill all fields correctly',
                                 type: SnackBarType.error,
@@ -257,12 +309,17 @@ class CreatedCoursesScreen extends StatelessWidget {
                               'description': descriptionController.text,
                               'category': selectedCategory,
                             };
-                            final response = await context.read<CourseProvider>().createCourse(data);
+                            final response = await context
+                                .read<CourseProvider>()
+                                .createCourse(data);
                             if (context.mounted) {
                               context.hideDialog();
                               response.match(
                                 (err) {
-                                  context.showCustomSnackBar(message: err, type: SnackBarType.error);
+                                  context.showCustomSnackBar(
+                                    message: err,
+                                    type: SnackBarType.error,
+                                  );
                                 },
                                 (_) {
                                   context.showCustomSnackBar(
@@ -270,7 +327,9 @@ class CreatedCoursesScreen extends StatelessWidget {
                                     type: SnackBarType.success,
                                   );
                                   context.pop();
-                                  context.read<CourseProvider>().getCreatedCourses(context);
+                                  context
+                                      .read<CourseProvider>()
+                                      .getCreatedCourses(context);
                                 },
                               );
                             }
@@ -278,8 +337,13 @@ class CreatedCoursesScreen extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: colorScheme.primary,
                             foregroundColor: colorScheme.onPrimary,
-                            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 4.w,
+                              vertical: 1.5.h,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           child: Text(
                             'Create',

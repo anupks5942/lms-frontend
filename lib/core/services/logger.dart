@@ -2,24 +2,24 @@ import 'package:flutter/foundation.dart';
 
 class Logger {
   static void info(String message) {
-    _log('INFO', message, color: '\x1B[34m'); 
+    _log('INFO', message, color: '\x1B[34m');
   }
 
   static void warning(String message) {
-    _log('WARNING', message, color: '\x1B[33m'); 
+    _log('WARNING', message, color: '\x1B[33m');
   }
 
   static void error(String message) {
-    _log('ERROR', message, color: '\x1B[31m'); 
+    _log('ERROR', message, color: '\x1B[31m');
   }
 
   static void success(String message) {
-    _log('SUCCESS', message, color: '\x1B[32m'); 
+    _log('SUCCESS', message, color: '\x1B[32m');
   }
 
   static void debug(String message) {
     if (kDebugMode) {
-      _log('DEBUG', message, color: '\x1B[35m'); 
+      _log('DEBUG', message, color: '\x1B[35m');
     }
   }
 
@@ -29,7 +29,9 @@ class Logger {
 
     final trace = StackTrace.current.toString().split('\n');
     final callerLine = trace.length > 2 ? trace[2] : trace[0];
-    final fileInfoMatch = RegExp(r'#2\s+.* \((.*?):(\d+):\d+\)').firstMatch(callerLine);
+    final fileInfoMatch = RegExp(
+      r'#2\s+.* \((.*?):(\d+):\d+\)',
+    ).firstMatch(callerLine);
 
     var location = '';
     if (fileInfoMatch != null) {

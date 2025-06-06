@@ -51,14 +51,18 @@ class CourseProvider with ChangeNotifier {
       searchQuery: _searchQuery.isNotEmpty ? _searchQuery : null,
     );
 
-    response.match((err) => _errorMessage = err, (courses) => _allCourses = courses);
+    response.match(
+      (err) => _errorMessage = err,
+      (courses) => _allCourses = courses,
+    );
 
     _isAllLoading = false;
     notifyListeners();
   }
 
   void setCategory(String category) {
-    if (category.isNotEmpty && (categories.contains(category) || category == 'All')) {
+    if (category.isNotEmpty &&
+        (categories.contains(category) || category == 'All')) {
       _selectedCategory = category;
       fetchCourses();
       notifyListeners();
@@ -89,7 +93,10 @@ class CourseProvider with ChangeNotifier {
     final user = context.read<AuthProvider>().getUser();
     final response = await _courseService.getEnrolledCourses(user?.id ?? '');
 
-    response.match((err) => _errorMessage = err, (courses) => _myCourses = courses);
+    response.match(
+      (err) => _errorMessage = err,
+      (courses) => _myCourses = courses,
+    );
 
     _isMyLoading = false;
     notifyListeners();
@@ -103,7 +110,10 @@ class CourseProvider with ChangeNotifier {
     final user = context.read<AuthProvider>().getUser();
     final response = await _courseService.getCreatedCourses(user?.id ?? '');
 
-    response.match((err) => _errorMessage = err, (courses) => _createdCourses = courses);
+    response.match(
+      (err) => _errorMessage = err,
+      (courses) => _createdCourses = courses,
+    );
     _isCreatedLoading = false;
     notifyListeners();
   }
@@ -117,7 +127,9 @@ class CourseProvider with ChangeNotifier {
     return response;
   }
 
-  Future<Either<String, String>> createCourse(Map<String, dynamic> courseData) async {
+  Future<Either<String, String>> createCourse(
+    Map<String, dynamic> courseData,
+  ) async {
     _errorMessage = '';
     notifyListeners();
 

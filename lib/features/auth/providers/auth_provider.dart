@@ -22,7 +22,10 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Either<String, AuthModel>> login({required String email, required String password}) async {
+  Future<Either<String, AuthModel>> login({
+    required String email,
+    required String password,
+  }) async {
     _errorMessage = '';
     notifyListeners();
 
@@ -43,7 +46,11 @@ class AuthProvider with ChangeNotifier {
     _errorMessage = '';
     notifyListeners();
 
-    final result = await _authService.register(name: name, email: email, password: password);
+    final result = await _authService.register(
+      name: name,
+      email: email,
+      password: password,
+    );
     return result;
   }
 

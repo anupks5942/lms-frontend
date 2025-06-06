@@ -67,7 +67,11 @@ class ValidationService {
     return null;
   }
 
-  static String? sameNumberValidation(String? value, String? originalNumber, {String? message}) {
+  static String? sameNumberValidation(
+    String? value,
+    String? originalNumber, {
+    String? message,
+  }) {
     if (value == null || value.trim().isEmpty) {
       return message ?? 'Required*';
     }
@@ -85,7 +89,11 @@ class ValidationService {
     return null;
   }
 
-  static String? passwordValidation(String? value, {String? message, bool isLogin = true}) {
+  static String? passwordValidation(
+    String? value, {
+    String? message,
+    bool isLogin = true,
+  }) {
     if (value == null || value.trim().isEmpty) {
       return message ?? 'Required*';
     }
@@ -105,7 +113,11 @@ class ValidationService {
     return null;
   }
 
-  static String? confirmPasswordValidation(String? confirmPassword, String? password, {String? message}) {
+  static String? confirmPasswordValidation(
+    String? confirmPassword,
+    String? password, {
+    String? message,
+  }) {
     if (confirmPassword == null || confirmPassword.trim().isEmpty) {
       return message ?? 'Required*';
     }
@@ -144,7 +156,9 @@ class ValidationService {
       return message ?? 'Required*';
     }
 
-    final emailRegex = RegExp(r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$');
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$',
+    );
     if (!emailRegex.hasMatch(value.trim())) {
       return 'Enter a valid email address';
     }

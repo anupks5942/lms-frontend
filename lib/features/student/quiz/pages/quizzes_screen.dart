@@ -28,7 +28,11 @@ class _QuizzesScreenState extends State<QuizzesScreen> {
   Widget build(BuildContext context) {
     final user = context.read<AuthProvider>().getUser();
     return Scaffold(
-      appBar: AppBar(elevation: 0, title: const Text('Quizzes'), centerTitle: true),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text('Quizzes'),
+        centerTitle: true,
+      ),
       floatingActionButton:
           user?.role == 'teacher'
               ? FloatingActionButton(
@@ -40,7 +44,8 @@ class _QuizzesScreenState extends State<QuizzesScreen> {
               )
               : null,
       body: RefreshIndicator(
-        onRefresh: () => context.read<QuizProvider>().getAllQuizzes(widget.courseId),
+        onRefresh:
+            () => context.read<QuizProvider>().getAllQuizzes(widget.courseId),
         child: Consumer<QuizProvider>(
           builder: (context, courseProvider, child) {
             return SingleChildScrollView(
@@ -58,7 +63,10 @@ class _QuizzesScreenState extends State<QuizzesScreen> {
 
   Widget _buildCourses(BuildContext context, QuizProvider courseProvider) {
     if (courseProvider.isLoading) {
-      return SizedBox(height: 80.h, child: const Center(child: CircularProgressIndicator()));
+      return SizedBox(
+        height: 80.h,
+        child: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (courseProvider.errorMessage.isNotEmpty) {
@@ -93,7 +101,10 @@ class _QuizzesScreenState extends State<QuizzesScreen> {
             children: [
               Icon(Icons.info_outline, size: 10.w, color: Colors.grey),
               SizedBox(height: 2.h),
-              Text('No quizzes found', style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                'No quizzes found',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ],
           ),
         ),
