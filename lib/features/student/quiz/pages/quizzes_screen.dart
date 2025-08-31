@@ -117,7 +117,7 @@ class _QuizzesScreenState extends State<QuizzesScreen> {
       itemCount: courseProvider.quizzes.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 0.5.h),
+          padding: EdgeInsets.only(top: 0.5.h),
           child: QuizCard(quiz: courseProvider.quizzes[index]),
         );
       },

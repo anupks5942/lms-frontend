@@ -129,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         CustomTextField(
           controller: _passwordController,
           hintText: 'Enter your password',
-          prefixIcon: Icons.lock_open,
+          prefixIcon: Icons.lock_outline,
           isPassword: true,
           validator:
               (value) =>

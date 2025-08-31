@@ -36,6 +36,7 @@ class LectureScreenState extends State<LectureScreen> {
         elevation: 0,
         backgroundColor: colorScheme.surfaceContainer,
         title: const Text('Lectures'),
+        centerTitle: true
       ),
       floatingActionButton:
           user?.role == 'teacher'

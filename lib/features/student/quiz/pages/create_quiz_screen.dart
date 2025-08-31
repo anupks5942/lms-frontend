@@ -84,18 +84,8 @@ class CreateQuizScreenState extends State<CreateQuizScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: colorScheme.surfaceContainer,
-        title: Text(
-          'Create Quiz',
-          style: textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: colorScheme.onSurface),
-          onPressed: () => context.pop(),
-        ),
+        title: const Text('Create Quiz'),
+        centerTitle: true,
       ),
       body: Consumer<QuizProvider>(
         builder: (context, quizProvider, child) {

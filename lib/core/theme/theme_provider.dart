@@ -12,13 +12,13 @@ class ThemeProvider with ChangeNotifier {
   }
 
   Future<void> _loadTheme() async {
-    _themeOption = await themePreferences.getTheme();
+    _themeOption = themePreferences.getTheme();
     notifyListeners();
   }
 
   Future<void> setTheme(ThemeOption theme) async {
     _themeOption = theme;
-    await themePreferences.setTheme(theme);
+    themePreferences.setTheme(theme);
     notifyListeners();
   }
 

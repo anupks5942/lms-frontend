@@ -52,7 +52,10 @@ class _HomeScreenState extends State<HomeScreen>
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (homeR.selectedIndex != 1) homeR.setIndex(1);
+      if (homeR.selectedIndex != 1) {
+        homeR.setIndex(1);
+        _tabController.animateTo(1);
+      }
       _handleTabChange(_tabController.index);
     });
   }
